@@ -17,7 +17,7 @@ const dummyData = [
     tersedia: false,
   },
   {
-    no_kamar: 'No. 123',
+    no_kamar: 'No. 124',
     wc_dalam: false,
     ac: true,
     springbed: true,
@@ -26,7 +26,7 @@ const dummyData = [
     tersedia: true,
   },
   {
-    no_kamar: 'No. 123',
+    no_kamar: 'No. 125',
     wc_dalam: true,
     ac: true,
     springbed: true,
@@ -35,7 +35,7 @@ const dummyData = [
     tersedia: true,
   },
   {
-    no_kamar: 'No. 123',
+    no_kamar: 'No. 126',
     wc_dalam: true,
     ac: true,
     springbed: true,
@@ -44,7 +44,7 @@ const dummyData = [
     tersedia: true,
   },
   {
-    no_kamar: 'No. 123',
+    no_kamar: 'No. 127',
     wc_dalam: true,
     ac: true,
     springbed: true,
@@ -93,6 +93,10 @@ export default function ListKamar() {
     }
 
     let tempRoom = [...rooms]
+
+    if (searchBox) {
+      tempRoom = tempRoom.filter(room => (room.no_kamar.toLowerCase()).includes(searchBox.toLowerCase()))
+    }
 
     if (availFilter) {
       console.log('avail filter ran')
