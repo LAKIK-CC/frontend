@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Heading, HStack, Input, InputGroup, InputLeftElement, Stack, Text } from '@chakra-ui/react'
 import './ListKamar.css'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CardKamar from '../../components/cardKamar/CardKamar'
 import { FaBed, FaCheck, FaSearch, FaShower, FaTemperatureLow } from 'react-icons/fa'
 import { AiFillThunderbolt } from 'react-icons/ai'
@@ -57,6 +57,7 @@ const dummyData = [
 
 export default function ListKamar() {
   const [rooms, setRooms] = useState([])
+  const [roomsToShow, setRoomsToShow] = useState([])
   const [searchBox, setSearchBox] = useState('')
   const [availFilter, setAvail] = useState('')
   const [filters, setFilters] = useState([])
@@ -84,6 +85,34 @@ export default function ListKamar() {
 
     setFilters(copyFilters)
   }
+
+  useEffect(() => {
+    if (rooms.length === 0) {
+      console.log('ROOM INITIALIZED')
+      setRooms(dummyData)
+    }
+
+    let tempRoom = [...rooms]
+
+    if (availFilter) {
+      console.log('avail filter ran')
+      tempRoom = tempRoom.filter(room => {
+        if (availFilter === 'available') {
+          return room.tersedia
+        } else {
+          return !room.tersedia
+        }
+      })
+    }
+    if (filters.length > 0) {
+      for (const filter of filters) {
+        tempRoom = tempRoom.filter(room => room[filter])
+      }
+    }
+    console.log(tempRoom)
+    setRoomsToShow(tempRoom)
+  }, [rooms, searchBox, availFilter, filters])
+  
 
   return (
     <Box w='75%' m='0 auto'>
@@ -126,12 +155,15 @@ export default function ListKamar() {
             </Button>
           </Flex>
         </Stack>
+      </Flex>
 
+      <Flex justifyContent='center' m='0 0 1rem'>
+        <Text color='gray'>{roomsToShow.length} room(s) found</Text>
       </Flex>
 
       <Stack justifyContent='center'>
-        {dummyData ?
-          dummyData.map(data => {
+        {roomsToShow ?
+          roomsToShow.map(data => {
             return (
               <CardKamar {...data} />
             )
