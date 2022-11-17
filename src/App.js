@@ -9,6 +9,7 @@ import ROUTE from './config/api/Route.js';
 import Login from './routes/login/Login.js';
 import Register from './routes/register/Register.js';
 import './config/middleware/Axios.js';
+import ListKamar from './routes/kamar/ListKamar.js';
 
 const App = () => {
 	return (<div id="app">
@@ -26,6 +27,7 @@ const App = () => {
           <Routes>
             <Route exact path={ROUTE.LOGIN} element={<Login />} />
             <Route exact path={ROUTE.REGISTER} element={<Register />} />
+			<Route exact path={ROUTE.READ_KAMAR} element={<ListKamar />} />
           </Routes>	
 				</Router>
 			</ChakraProvider>
