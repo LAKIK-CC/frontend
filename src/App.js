@@ -10,6 +10,7 @@ import Login from './routes/login/Login.js';
 import Register from './routes/register/Register.js';
 import CreateForm from './routes/createForm/CreateForm.js';
 import './config/middleware/Axios.js';
+import UpdateForm from './routes/updateForm/UpdateForm.js';
 
 const App = () => {
 	return (<div id="app">
@@ -28,6 +29,7 @@ const App = () => {
             <Route exact path={ROUTE.LOGIN} element={<Login />} />
             <Route exact path={ROUTE.REGISTER} element={<Register />} />
 			<Route exact path={ROUTE.CREATE_KAMAR} element={<CreateForm />} />
+			<Route exact path={ROUTE.EDIT_KAMAR} element={<UpdateForm />} />
           </Routes>	
 				</Router>
 			</ChakraProvider>

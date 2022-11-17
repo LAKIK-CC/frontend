@@ -32,6 +32,7 @@ const CreateForm = () => {
 
   const onSubmit = (res) => {
     console.log(res);
+    navigate("/");
   }
 
   return (
@@ -55,7 +56,6 @@ const CreateForm = () => {
                   errors={errors}
                   register={register}
               />
-              {/* {errors.nomorKamar && <Text color='red'>Nomor kamar harus berupa bilangan bulat</Text>} */}
               <Box mb='20px' />
               
               <TextInput 
@@ -65,7 +65,6 @@ const CreateForm = () => {
                   errors={errors}
                   register={register}
               />
-              {/* {errors.nomorKamar && <Text color='red'>Nomor kamar harus berupa bilangan bulat</Text>} */}
               <Box mb='20px' />
 
               <CheckboxGroup colorScheme='green' >
@@ -94,7 +93,6 @@ const CreateForm = () => {
                   placeholder='Keterangan...'
                   {...register('keterangan')}
               />
-              {/* {errors.nomorKamar && <Text color='red'>Nomor kamar harus berupa bilangan bulat</Text>} */}
               <Box mb='20px' />
 
 
