@@ -8,6 +8,7 @@ import ROUTE from './config/api/Route.js';
 // import { AuthenticationChecker } from './config/middleware/Middleware.js';
 import Login from './routes/login/Login.js';
 import Register from './routes/register/Register.js';
+import CreateForm from './routes/createForm/CreateForm.js';
 import './config/middleware/Axios.js';
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
           <Routes>
             <Route exact path={ROUTE.LOGIN} element={<Login />} />
             <Route exact path={ROUTE.REGISTER} element={<Register />} />
+			<Route exact path={ROUTE.CREATE_KAMAR} element={<CreateForm />} />
           </Routes>	
 				</Router>
 			</ChakraProvider>
