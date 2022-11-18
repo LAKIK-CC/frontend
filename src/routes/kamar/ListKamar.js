@@ -8,46 +8,46 @@ import { GiCancel } from 'react-icons/gi'
 
 const dummyData = [
   {
-    no_kamar: 'No. 123',
-    wc_dalam: true,
+    noKamar: 'No. 123',
+    wcDalam: true,
     ac: true,
-    springbed: true,
+    springBed: true,
     listrik: true,
     keterangan: 'Ex incididunt ut consectetur exercitation enim anim. Magna exercitation proident id nisi pariatur. Non nostrud fugiat eiusmod ex consequat voluptate aliqua sint ut minim labore ut in excepteur. Laborum veniam reprehenderit nulla non qui reprehenderit mollit. Sit aliquip officia cupidatat laboris duis minim officia proident commodo laboris amet enim. Cillum esse ea ut in laboris labore labore excepteur velit anim incididunt. Ad ea qui et ea tempor esse consequat anim ut enim deserunt.',
     tersedia: false,
   },
   {
-    no_kamar: 'No. 124',
-    wc_dalam: false,
+    noKamar: 'No. 124',
+    wcDalam: false,
     ac: true,
-    springbed: true,
+    springBed: true,
     listrik: true,
     keterangan: 'Ex incididunt ut consectetur exercitation enim anim. Magna exercitation proident id nisi pariatur. Non nostrud fugiat eiusmod ex consequat voluptate aliqua sint ut minim labore ut in excepteur. Laborum veniam reprehenderit nulla non qui reprehenderit mollit. Sit aliquip officia cupidatat laboris duis minim officia proident commodo laboris amet enim. Cillum esse ea ut in laboris labore labore excepteur velit anim incididunt. Ad ea qui et ea tempor esse consequat anim ut enim deserunt.',
     tersedia: true,
   },
   {
-    no_kamar: 'No. 125',
-    wc_dalam: true,
+    noKamar: 'No. 125',
+    wcDalam: true,
     ac: true,
-    springbed: true,
+    springBed: true,
     listrik: true,
     keterangan: 'Ex incididunt ut consectetur exercitation enim anim. Magna exercitation proident id nisi pariatur. Non nostrud fugiat eiusmod ex consequat voluptate aliqua sint ut minim labore ut in excepteur. Laborum veniam reprehenderit nulla non qui reprehenderit mollit. Sit aliquip officia cupidatat laboris duis minim officia proident commodo laboris amet enim. Cillum esse ea ut in laboris labore labore excepteur velit anim incididunt. Ad ea qui et ea tempor esse consequat anim ut enim deserunt.',
     tersedia: true,
   },
   {
-    no_kamar: 'No. 126',
-    wc_dalam: true,
+    noKamar: 'No. 126',
+    wcDalam: true,
     ac: true,
-    springbed: true,
+    springBed: true,
     listrik: true,
     keterangan: 'Ex incididunt ut consectetur exercitation enim anim. Magna exercitation proident id nisi pariatur. Non nostrud fugiat eiusmod ex consequat voluptate aliqua sint ut minim labore ut in excepteur. Laborum veniam reprehenderit nulla non qui reprehenderit mollit. Sit aliquip officia cupidatat laboris duis minim officia proident commodo laboris amet enim. Cillum esse ea ut in laboris labore labore excepteur velit anim incididunt. Ad ea qui et ea tempor esse consequat anim ut enim deserunt.',
     tersedia: true,
   },
   {
-    no_kamar: 'No. 127',
-    wc_dalam: true,
+    noKamar: 'No. 127',
+    wcDalam: true,
     ac: true,
-    springbed: true,
+    springBed: true,
     listrik: true,
     keterangan: 'Ex incididunt ut consectetur exercitation enim anim. Magna exercitation proident id nisi pariatur. Non nostrud fugiat eiusmod ex consequat voluptate aliqua sint ut minim labore ut in excepteur. Laborum veniam reprehenderit nulla non qui reprehenderit mollit. Sit aliquip officia cupidatat laboris duis minim officia proident commodo laboris amet enim. Cillum esse ea ut in laboris labore labore excepteur velit anim incididunt. Ad ea qui et ea tempor esse consequat anim ut enim deserunt.',
     tersedia: true,
@@ -88,14 +88,13 @@ export default function ListKamar() {
 
   useEffect(() => {
     if (rooms.length === 0) {
-      console.log('ROOM INITIALIZED')
       setRooms(dummyData)
     }
 
     let tempRoom = [...rooms]
 
     if (searchBox) {
-      tempRoom = tempRoom.filter(room => (room.no_kamar.toLowerCase()).includes(searchBox.toLowerCase()))
+      tempRoom = tempRoom.filter(room => (room.noKamar.toLowerCase()).includes(searchBox.toLowerCase()))
     }
 
     if (availFilter) {
@@ -145,7 +144,7 @@ export default function ListKamar() {
           </Flex>
 
           <Flex gap='1rem' wrap='wrap' justifyContent='center'>
-            <Button colorScheme='orangeChill'  {...(filters.includes('wc_dalam') ? null : {variant:'outline'})} onClick={() => filterBtnClicked('wc_dalam')} leftIcon={<FaShower />}>
+            <Button colorScheme='orangeChill'  {...(filters.includes('wcDalam') ? null : {variant:'outline'})} onClick={() => filterBtnClicked('wcDalam')} leftIcon={<FaShower />}>
               Kamar mandi dalam
             </Button>
             <Button colorScheme='orangeChill' {...(filters.includes('ac') ? null : {variant:'outline'})} onClick={() => filterBtnClicked('ac')} leftIcon={<FaTemperatureLow />}>
@@ -154,7 +153,7 @@ export default function ListKamar() {
             <Button colorScheme='orangeChill' {...(filters.includes('listrik') ? null : {variant:'outline'})} onClick={() => filterBtnClicked('listrik')} leftIcon={<AiFillThunderbolt />}>
               Listrik include
             </Button>
-            <Button colorScheme='orangeChill' {...(filters.includes('springbed') ? null : {variant:'outline'})} onClick={() => filterBtnClicked('springbed')} leftIcon={<FaBed />}>
+            <Button colorScheme='orangeChill' {...(filters.includes('springBed') ? null : {variant:'outline'})} onClick={() => filterBtnClicked('springBed')} leftIcon={<FaBed />}>
               Springbed
             </Button>
           </Flex>

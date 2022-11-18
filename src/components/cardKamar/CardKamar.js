@@ -9,10 +9,10 @@ import React from 'react'
 export default function CardKamar(props) {
 
   const {
-    no_kamar,
-    wc_dalam,
+    noKamar,
+    wcDalam,
     ac,
-    springbed,
+    springBed,
     listrik,
     tersedia,
     keterangan,
@@ -22,7 +22,7 @@ export default function CardKamar(props) {
   return (
     <Card bgColor='' variant='outline'>
       <CardHeader className='test' overflow='hidden'>
-          <Heading fontSize={{sm: '1.5rem', md: '2rem'}}>{no_kamar}</Heading>
+          <Heading fontSize={{sm: '1.5rem', md: '2rem'}}>{noKamar}</Heading>
           <Badge colorScheme={tersedia ? 'green' : 'red'} fontSize='1rem'>{tersedia ? 'Tersedia' : 'Tidak tersedia'}</Badge>
       </CardHeader>
       <CardBody>
@@ -31,7 +31,7 @@ export default function CardKamar(props) {
               <Text as='b'>Fasilitas:</Text>
               <Stack>
                 {
-                  wc_dalam &&
+                  wcDalam &&
                   <Grid templateColumns='auto 1fr' gap='1rem' alignItems='center'><FaShower/> Kamar mandi dalam</Grid>
                 }
                 {
@@ -43,7 +43,7 @@ export default function CardKamar(props) {
                   <Grid templateColumns='auto 1fr' gap='1rem' alignItems='center'><AiFillThunderbolt/> Listrik include</Grid>
                 }
                 {
-                  springbed &&
+                  springBed &&
                   <Grid templateColumns='auto 1fr' gap='1rem' alignItems='center'><FaBed/> Springbed</Grid>
                 }
                 {/* <Grid templateColumns='auto 1fr' gap='1rem' alignItems='center'><TbDots/> etc.</Grid> */}
