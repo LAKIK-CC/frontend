@@ -3,7 +3,6 @@ const ROUTE = {
   LOGIN: '/login',
   REGISTER: '/register',
   LOGOUT: '/logout',
-  DETAIL_KAMAR: '/:id/detail',
   CREATE_KAMAR: '/create',
   EDIT_KAMAR: '/:id/edit',
   READ_KAMAR: '/list-kamar'
