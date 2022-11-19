@@ -107,7 +107,7 @@ export default function ListKamar() {
         }
       })
     }
-    if (filters.length > 0) {
+    if (filters) {
       for (const filter of filters) {
         tempRoom = tempRoom.filter(room => room[filter])
       }
@@ -118,11 +118,13 @@ export default function ListKamar() {
   
 
   return (
-    <Box w='75%' m='0 auto'>
+    <Box w='75%' m='0 auto 5rem'>
       <Flex m='3rem 0' direction='column' textAlign='center' alignItems='center' gap='2rem' className='header-group'>
         <Box>
           <Heading>Kos Mihana Performance</Heading>
           <Text color='gray'>Jl. Mandor Goweng No. 87, Mantap mantap mantap, Kec bla bla</Text>
+          <Text color='gray'>+6287285314177</Text>
+          <Text m='1rem 0 0'>Non consectetur consequat fugiat sunt ea et. Ipsum fugiat sunt ea eiusmod non proident. Cillum duis exercitation id sit consectetur amet minim veniam nostrud. Pariatur ipsum eu voluptate nostrud amet minim est in sit tempor mollit amet laborum.</Text>
         </Box>
 
         <InputGroup w='15rem'>
