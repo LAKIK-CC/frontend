@@ -25,9 +25,9 @@ const App = () => {
 							</Router> */}
 					{/* </AuthenticationChecker> */}
           <Routes>
+			<Route path={ROUTE.DASHBOARD} element={<ListKamar />} />
             <Route exact path={ROUTE.LOGIN} element={<Login />} />
             <Route exact path={ROUTE.REGISTER} element={<Register />} />
-			<Route exact path={ROUTE.READ_KAMAR} element={<ListKamar />} />
           </Routes>	
 				</Router>
 			</ChakraProvider>

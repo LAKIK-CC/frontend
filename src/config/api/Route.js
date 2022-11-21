@@ -5,7 +5,6 @@ const ROUTE = {
   LOGOUT: '/logout',
   CREATE_KAMAR: '/create',
   EDIT_KAMAR: '/:id/edit',
-  READ_KAMAR: '/list-kamar'
 };
 
 export default ROUTE;
