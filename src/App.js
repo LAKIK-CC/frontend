@@ -9,6 +9,7 @@ import ROUTE from './config/api/Route.js';
 import Login from './routes/login/Login.js';
 import Register from './routes/register/Register.js';
 import './config/middleware/Axios.js';
+import NotFound from './routes/not-found/NotFound.js';
 
 const App = () => {
 	return (<div id="app">
@@ -26,6 +27,7 @@ const App = () => {
           <Routes>
             <Route exact path={ROUTE.LOGIN} element={<Login />} />
             <Route exact path={ROUTE.REGISTER} element={<Register />} />
+			<Route path='*' element={<NotFound />} />
           </Routes>	
 				</Router>
 			</ChakraProvider>
