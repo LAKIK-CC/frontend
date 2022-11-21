@@ -1,11 +1,7 @@
 import React from 'react'
-
 import NotFoundIcon from './NotFound.svg'
-
 import { Box, Button, Flex, Heading, Image, Text, VStack } from '@chakra-ui/react'
-
-import { TbError404 } from 'react-icons/tb'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function NotFound() {
   const navigate = useNavigate()
@@ -27,8 +23,8 @@ export default function NotFound() {
             Kayaknya kita nyasar deh 😰
           </Text>
         </VStack>
-        <Button colorScheme='orangeChill' onClick={() => navigate(-1)}>
-          Go back
+        <Button colorScheme='orangeChill' onClick={() => navigate('/')}>
+          Back to Dashboard
         </Button>
       </Flex>
     </Box>
