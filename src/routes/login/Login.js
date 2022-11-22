@@ -36,7 +36,7 @@ const Login = connect('user', actions)(
     const onSubmit = async (data) => {
         setIsLoading(true);
         try {
-            await axios.post(`${BASE_URL}/login/`, data)
+            await axios.post(`${BASE_URL}/v1/user/login`, data)
             .then((response) => {
                 setResponseMessage('')
                 setUserToken(response['data']['token'])
@@ -103,13 +103,11 @@ const Login = connect('user', actions)(
                             {responseMessage !== '' && <Text fontSize='14px' color='red.500'>{responseMessage}</Text>}
                             <Box mb={responseMessage ? '10px' : '20px'} />
 
-                            <Button form="form-login" id='signInButton' colorScheme='orangeChill' type='submit' width='12em' borderRadius={10}>
+                            <Button form="form-login" id='signInButton' colorScheme='orangeChill' type='submit' width='8em' borderRadius={10}>
                                 {isLoading ? <Spinner /> : "Sign In"}
                             </Button>
                             
                         </Box>
-                        
-                        
                         
                         <Box mb='20px' />
                         <Text as='span'>or </Text>

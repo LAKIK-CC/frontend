@@ -11,6 +11,7 @@ import Register from './routes/register/Register.js';
 import CreateKamar from './routes/createKamar/CreateKamar.js';
 import './config/middleware/Axios.js';
 import UpdateKamar from './routes/updateKamar/UpdateKamar.js';
+import NotFound from './routes/not-found/NotFound.js';
 
 const App = () => {
 	return (<div id="app">
@@ -30,6 +31,7 @@ const App = () => {
             <Route exact path={ROUTE.REGISTER} element={<Register />} />
 			<Route exact path={ROUTE.CREATE_KAMAR} element={<CreateKamar />} />
 			<Route exact path={ROUTE.EDIT_KAMAR} element={<UpdateKamar />} />
+			<Route path='*' element={<NotFound />} />
           </Routes>	
 				</Router>
 			</ChakraProvider>
