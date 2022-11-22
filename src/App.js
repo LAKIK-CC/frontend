@@ -5,9 +5,10 @@ import { Provider } from 'unistore/react';
 import { store } from './config/store/Store.js';
 import theme from './config/theme/Theme.js';
 import ROUTE from './config/api/Route.js';
-// import { AuthenticationChecker } from './config/middleware/Middleware.js';
+import { AuthenticationChecker } from './config/middleware/Middleware.js';
 import Login from './routes/login/Login.js';
 import Register from './routes/register/Register.js';
+import Dashboard from './routes/dashboard/Dashboard.js';
 import './config/middleware/Axios.js';
 
 const App = () => {
@@ -15,14 +16,13 @@ const App = () => {
 		<Provider store={store}>
 			<ChakraProvider theme={theme}>
 				<Router>
-					{/* <AuthenticationChecker path="/:*?"> */}
-							{/* <Router>
+					<AuthenticationChecker path="/:*?">
+							<Router>
                 <Route exact path={ROUTE.DASHBOARD} element={<Dashboard />} />
-                <Route exact path={ROUTE.CREATE_KAMAR} element={<CreateKamar />} />
-                <Route path={ROUTE.DETAIL_KAMAR} element={<DetailKamar />} />
-                <Route path={ROUTE.EDIT_KAMAR} element={<EditKamar />} />
-							</Router> */}
-					{/* </AuthenticationChecker> */}
+                {/* <Route exact path={ROUTE.CREATE_KAMAR} element={<CreateKamar />} />
+                <Route path={ROUTE.EDIT_KAMAR} element={<EditKamar />} /> */}
+							</Router>
+					</AuthenticationChecker>
           <Routes>
             <Route exact path={ROUTE.LOGIN} element={<Login />} />
             <Route exact path={ROUTE.REGISTER} element={<Register />} />

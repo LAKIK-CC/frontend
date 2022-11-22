@@ -1,5 +1,7 @@
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { getUserToken } from "../api/Auth.js"
+import { getUserAccessToken } from "../api/Auth.js"
+import BASE_URL from '../api/Constant.js';
 import ROUTE from "../api/Route.js"
 
 const AuthenticationChecker = ({children}) => {
@@ -8,7 +10,16 @@ const AuthenticationChecker = ({children}) => {
 }
 
 function isAuthenticate() {
-    return (getUserToken() != null)
+    return (getUserAccessToken() != null) && isAuthenticateValid()
 }
 
-export {AuthenticationChecker, isAuthenticate}
+function isAuthenticateValid() { 
+    axios.get(`${BASE_URL}/v1/kamar/`).catch((error) => {
+        if (error.response['data']['trace'].includes('com.auth0.jwt.exceptions.TokenExpiredException')) {
+            return false
+        }
+    })
+    return true
+  }
+
+export {AuthenticationChecker, isAuthenticate, isAuthenticateValid}

@@ -7,7 +7,7 @@ import { connect } from 'unistore/react';
 import { actions } from '../../config/store/Store.js';
 import axios from 'axios';
 import BASE_URL from '../../config/api/Constant.js';
-import { setUserToken } from '../../config/api/Auth.js';
+import { setUserAccessToken, setUserRefreshToken } from '../../config/api/Auth.js';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticate } from '../../config/middleware/Middleware.js';
 import ROUTE from '../../config/api/Route.js';
@@ -32,10 +32,12 @@ const Login = connect('user', actions)(
         try {
             await axios.post(`${BASE_URL}/v1/user/login`, data)
             .then((response) => {
+                response = JSON.parse(response)
                 setResponseMessage('')
-                setUserToken(response['data']['token'])
+                setUserAccessToken(response['data']['accessToken'])
+                setUserRefreshToken(response['data']['refreshToken'])
                 setUser(response['data']['username'])
-                navigate(ROUTE.LOGIN)
+                navigate(ROUTE.DASHBOARD)
             })
         } catch(error) {
             setResponseMessage(error['response']['data']['response'])
