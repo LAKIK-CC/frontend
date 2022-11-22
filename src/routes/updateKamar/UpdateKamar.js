@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Button, Spinner, Text,Box, Flex, Grid, GridItem, Checkbox, CheckboxGroup, Textarea, Stack  } from '@chakra-ui/react';
+import { Button, Spinner, Text,Box, Flex, Grid, GridItem, Checkbox, CheckboxGroup, Stack  } from '@chakra-ui/react';
 import TextInput from '../../components/textInput/TextInput.js';
+import TextArea from '../../components/textInput/TextArea';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -10,28 +11,27 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 const schema = yup.object().shape({
-    nomorKamar: yup.number().positive().integer().required(),
-    lantai: yup.number().positive().integer().required(),
+    noKamar: yup.string().required(),
     keterangan: yup.string(),
     tersedia: yup.boolean(),
-    wc: yup.boolean(),
+    wcDalam: yup.boolean(),
     ac: yup.boolean(),
     listrik: yup.boolean(),
     springBed: yup.boolean()
 })
 
 const mockApi = {
-    nomorKamar: 1,
+    noKamar: "a1",
     lantai: 2,
     keterangan: "aku suka kamar luthfi",
     tersedia: true,
-    wc: true,
+    wcDalam: true,
     ac: true,
     listrik: false,
     springBed: true
 }
 
-const UpdateForm = () => {
+const UpdateKamar = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -44,9 +44,10 @@ const UpdateForm = () => {
     register,
     formState: { errors },
     } = useForm({
+        defaultValues: mockApi,
         resolver: yupResolver(schema),
     });
-    
+
     const onSubmit = (res) => {
         console.log(res);
         navigate("/");
@@ -66,23 +67,12 @@ const UpdateForm = () => {
                 </Text>
                 <Box as='form' onSubmit={handleSubmit(onSubmit)}>
                     <TextInput 
-                        id="nomorKamar"
+                        id="noKamar"
                         title='Nomor Kamar' 
-                        placeholder='Nomor Kamar'
+                        placeholder='Masukkan nomor kamar...'
                         errors={errors}
                         register={register}
-                        defaultValue={mockApi.nomorKamar}
                         isDisabled
-                    />
-                    <Box mb='20px' />
-                    
-                    <TextInput 
-                        id="lantai"
-                        title='Lantai' 
-                        placeholder='Lantai'
-                        errors={errors}
-                        register={register}
-                        defaultValue={mockApi.lantai}
                     />
                     <Box mb='20px' />
 
@@ -91,7 +81,7 @@ const UpdateForm = () => {
                         <Checkbox value="tersedia" colorScheme='green' {...register('tersedia')}>
                         Tersedia
                         </Checkbox>
-                        <Checkbox value="wc" colorScheme='green' {...register('wc')}>
+                        <Checkbox value="wcDalam" colorScheme='green' {...register('wcDalam')}>
                         WC
                         </Checkbox>
                         <Checkbox value="ac" colorScheme='green' {...register('ac')}>
@@ -106,12 +96,12 @@ const UpdateForm = () => {
                     </Stack>
                     </CheckboxGroup>
                     <Box mb='20px' />
-                    <Textarea 
+                    <TextArea
                         id="keterangan"
-                        title='Keterangan' 
-                        placeholder='Keterangan...'
-                        {...register('keterangan')}
-                        defaultValue={mockApi.keterangan}
+                        title="Keterangan"
+                        placeholder='Masukkan keterangan...'
+                        errors={errors}
+                        register={register}
                     />
                     <Box mb='20px' />
 
@@ -127,4 +117,4 @@ const UpdateForm = () => {
       )
 }
 
-export default UpdateForm
+export default UpdateKamar

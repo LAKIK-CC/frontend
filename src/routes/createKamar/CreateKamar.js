@@ -1,25 +1,29 @@
 import React, { useState } from 'react';
-import { Button, Spinner, Text,Box, Flex, Grid, GridItem, Checkbox, CheckboxGroup, Textarea, Stack  } from '@chakra-ui/react';
+import { Button, Spinner, Text,Box, Flex, Grid, GridItem, Checkbox, CheckboxGroup, Stack  } from '@chakra-ui/react';
 import TextInput from '../../components/textInput/TextInput.js';
+import TextArea from '../../components/textInput/TextArea';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import axios from 'axios';
+import BASE_URL from '../../config/api/Constant.js';
+import ROUTE from '../../config/api/Route.js';
 
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 const schema = yup.object().shape({
-  nomorKamar: yup.number().positive().integer().required(),
-  lantai: yup.number().positive().integer().required(),
+  noKamar: yup.string().required(),
   keterangan: yup.string(),
   tersedia: yup.boolean(),
-  wc: yup.boolean(),
+  wcDalam: yup.boolean(),
   ac: yup.boolean(),
   listrik: yup.boolean(),
   springBed: yup.boolean()
 })
 
-const CreateForm = () => {
+const CreateKamar = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [responseMessage, setResponseMessage] = useState('')
   const navigate = useNavigate();
 
   const {
@@ -30,9 +34,19 @@ const CreateForm = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (res) => {
-    console.log(res);
-    navigate("/");
+  const onSubmit = async (res) => {
+    setIsLoading(true);
+    try {
+      await axios.post(`${BASE_URL}/v1/kamar`, res)
+      .then((response) => {
+          setResponseMessage('')
+          navigate(ROUTE.LOGIN)
+      })
+    } catch(error) {
+        setResponseMessage(error['response']['data']['response'])
+        setIsLoading(false)
+    }
+    navigate(ROUTE.DASHBOARD);
   }
 
   return (
@@ -50,18 +64,9 @@ const CreateForm = () => {
             </Text>
             <Box as='form' onSubmit={handleSubmit(onSubmit)}>
               <TextInput 
-                  id="nomorKamar"
+                  id="noKamar"
                   title='Nomor Kamar' 
-                  placeholder='Nomor Kamar'
-                  errors={errors}
-                  register={register}
-              />
-              <Box mb='20px' />
-              
-              <TextInput 
-                  id="lantai"
-                  title='Lantai' 
-                  placeholder='Lantai'
+                  placeholder='Masukkan nomor kamar...'
                   errors={errors}
                   register={register}
               />
@@ -72,7 +77,7 @@ const CreateForm = () => {
                   <Checkbox colorScheme='green' {...register('tersedia')}>
                     Tersedia
                   </Checkbox>
-                  <Checkbox colorScheme='green' {...register('wc')}>
+                  <Checkbox colorScheme='green' {...register('wcDalam')}>
                     WC
                   </Checkbox>
                   <Checkbox colorScheme='green' {...register('ac')}>
@@ -87,12 +92,14 @@ const CreateForm = () => {
                 </Stack>
               </CheckboxGroup>
               <Box mb='20px' />
-              <Textarea 
-                  id="keterangan"
-                  title='Keterangan' 
-                  placeholder='Keterangan...'
-                  {...register('keterangan')}
+              <TextArea
+                id="keterangan"
+                title="Keterangan"
+                placeholder='Masukkan keterangan...'
+                errors={errors}
+                register={register}
               />
+
               <Box mb='20px' />
 
 
@@ -109,4 +116,4 @@ const CreateForm = () => {
   )
 }
 
-export default CreateForm
+export default CreateKamar
