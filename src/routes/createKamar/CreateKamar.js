@@ -37,7 +37,11 @@ const CreateKamar = () => {
   const onSubmit = async (res) => {
     setIsLoading(true);
     try {
-      await axios.post(`${BASE_URL}/v1/kamar`, res)
+      await axios.post(`${BASE_URL}/v1/kamar`, res, {
+        headers: {
+          Authorization: `Bearer ${getUserAccessToken()}`
+        }
+      })
       .then((response) => {
           setResponseMessage('')
           navigate(ROUTE.LOGIN)
