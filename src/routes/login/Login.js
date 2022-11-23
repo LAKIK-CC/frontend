@@ -7,44 +7,41 @@ import { connect } from 'unistore/react';
 import { actions } from '../../config/store/Store.js';
 import axios from 'axios';
 import BASE_URL from '../../config/api/Constant.js';
-import { setUserToken } from '../../config/api/Auth.js';
+import { setUserAccessToken, setUserRefreshToken } from '../../config/api/Auth.js';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticate } from '../../config/middleware/Middleware.js';
 import ROUTE from '../../config/api/Route.js';
 
 const Login = connect('user', actions)( 
     ({ setUser }) =>{
-    
-    const param = new URLSearchParams(window.location.search).get('isRegistered')
-    const [isRegistered, setIsRegistered] = useState(null)
+    const [responseMessage, setResponseMessage] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    const isRegistered = (new URL(document.location)).searchParams.get("isRegistered") ? true : false
 
     const navigate = useNavigate();
 
-    if (param) {
-        setIsRegistered(true)
-    }
     if (!isAuthenticate()) {
+        
     const {
       handleSubmit,
       register,
       formState: { errors },
     } = useForm();
 
-    const [responseMessage, setResponseMessage] = useState('')
-
     const onSubmit = async (data) => {
         setIsLoading(true);
         try {
             await axios.post(`${BASE_URL}/v1/user/login`, data)
             .then((response) => {
+                response = JSON.parse(JSON.stringify(response))
                 setResponseMessage('')
-                setUserToken(response['data']['token'])
-                setUser(response['data']['email'])
-                navigate(ROUTE.LOGIN)
+                setUserAccessToken(response['data']['accessToken'])
+                setUserRefreshToken(response['data']['refreshToken'])
+                setUser(response['data']['username'])
+                navigate(ROUTE.DASHBOARD)
             })
         } catch(error) {
-            setResponseMessage(error['response']['data']['response'])
+            // setResponseMessage(error['response']['data']['response'])
             setIsLoading(false)
         }
     };
@@ -76,13 +73,13 @@ const Login = connect('user', actions)(
                         </Text>
                         <Box as='form' onSubmit={handleSubmit(onSubmit)} id="form-login">
                             <TextInput 
-                                id="email"
-                                title='Email' 
-                                placeholder='name@example.com' 
+                                id="username"
+                                title='Username' 
+                                placeholder='myusername' 
                                 errors={errors}
                                 rules={{
                                     required: 'Required',
-                                    minLength: { value: 3, message: 'Minimum length should be 3' },
+                                    minLength: { value: 1, message: 'Minimum length should be 1' },
                                 }}
                                 register={register}
                             />
