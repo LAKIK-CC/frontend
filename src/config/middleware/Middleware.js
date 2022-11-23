@@ -14,7 +14,11 @@ function isAuthenticate() {
 }
 
 function isAuthenticateValid() { 
-    axios.get(`${BASE_URL}/v1/kamar/`).catch((error) => {
+    axios.get(`${BASE_URL}/v1/kamar/`, {
+        headers: {
+            Authorization: `Bearer ${getUserAccessToken()}`
+        }
+    }).catch((error) => {
         if (error.response['data']['trace'].includes('com.auth0.jwt.exceptions.TokenExpiredException')) {
             return false
         }
