@@ -7,6 +7,7 @@ import * as yup from "yup";
 import axios from 'axios';
 import BASE_URL from '../../config/api/Constant.js';
 import ROUTE from '../../config/api/Route.js';
+import { getUserToken } from '../../config/api/Auth.js';
 
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -39,7 +40,7 @@ const CreateKamar = () => {
     try {
       await axios.post(`${BASE_URL}/v1/kamar`, res, {
         headers: {
-          Authorization: `Bearer ${getUserAccessToken()}`
+          Authorization: `Bearer ${getUserToken()}`
         }
       })
       .then((response) => {
