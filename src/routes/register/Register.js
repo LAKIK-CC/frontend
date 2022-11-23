@@ -35,6 +35,13 @@ function Register() {
     const onSubmit = (data) => {
         setIsLoading(true)
 
+        if (data.password !== data.password2) {
+            setErrl(['Konfirmasi password tidak sama'])
+            setIsLoading(false)
+            return ''
+        }
+
+        data['role'] = 'PEMILIK_KOS'
         axios.post(`${BASE_URL}/v1/user/register`, data)
         .then(() => {
             navigate(ROUTE.LOGIN + "?isRegistered=true")
@@ -45,9 +52,9 @@ function Register() {
             if (error.response.data.response) {
                 error_logs = error_logs.concat(error.response.data.response)
             }
-            if (error.response.data.email) {
-                const email_error = error.response.data.email
-                error_logs = error_logs.concat(email_error)
+            if (error.response.data.username) {
+                const username_error = error.response.data.username
+                error_logs = error_logs.concat(username_error)
             }
             if (error.response.data.password) {
                 let password_error = error.response.data.password
@@ -91,25 +98,38 @@ function Register() {
                                 <Grid justify="start" w='50vw' h='full' templateColumns='repeat(4, 1fr)' gap="20px" >
                                     <GridItem colSpan={1}>
                                         <Text onClick={() => setSelectedTab(0)} textAlign="center" color={selectedTab == 0 ? '#FF884B' : "black"} fontWeight={selectedTab == 0 ? "700" : "500"} cursor='pointer'>
-                                            Akun
+                                            Data Kos
                                         </Text>
                                     </GridItem>
 
                                     <GridItem colSpan={1}>
                                         <Text onClick={() => setSelectedTab(1)} textAlign="center"  color={selectedTab == 1 ? '#FF884B' : "black"} fontWeight={selectedTab == 1 ? "700" : "500"} cursor='pointer'>
-                                            Data Kos
+                                            Akun
                                         </Text>
                                     </GridItem>
                                 </Grid>
                             </Box>
                             <Box mb='20px' />
 
-                            {selectedTab == 0 &&
+                            {selectedTab == 1 &&
                             <Box>
                                 <TextInput 
                                     id="email"
                                     title='Email' 
                                     placeholder='name@example.com'
+                                    errors={errors}
+                                    register={register}
+                                    rules = {{
+                                        required: "Required",
+                                        minLength: { value: 1, message: 'Required' },
+                                    }}
+                                />
+                                <Box mb='20px' />
+
+                                <TextInput 
+                                    id="username"
+                                    title='Username' 
+                                    placeholder='myusername'
                                     errors={errors}
                                     register={register}
                                     rules = {{
@@ -134,7 +154,7 @@ function Register() {
 
                                 <PasswordInput
                                     id="password2"
-                                    title="Confirm Password"
+                                    title="Konfirmasi Password"
                                     placeholder='mypassword123'
                                     errors={errors}
                                     register={register}
@@ -144,13 +164,20 @@ function Register() {
                                     }}
                                 />
                                 <Box mb='20px' />
-                                <Button onClick={() => setSelectedTab(1)} colorScheme='orangeChill' width='8em' borderRadius={10}>
-                                    Next
-                                </Button>
+
+                                <Flex minWidth='max-content' alignItems='center' gap='2'>
+                                    <Button onClick={() => setSelectedTab(0)} colorScheme='orangeChill' width='8em' borderRadius={10}>
+                                        Back
+                                    </Button>
+                                    <Spacer />
+                                    <Button id='signInButton' colorScheme='orangeChill' type='submit' width='8em' borderRadius={10}>
+                                    {isLoading ? <Spinner /> : "Sign Up"}
+                                    </Button>
+                                </Flex>
                             </Box>
                             }
 
-                            {selectedTab == 1 &&
+                            {selectedTab == 0 &&
                             <Box>
                                 <TextInput 
                                     id="namaKos"
@@ -166,7 +193,7 @@ function Register() {
                                 <Box mb='20px' />
 
                                 <TextInput 
-                                    id="noTeleponKos"
+                                    id="nomorTeleponKos"
                                     title='Nomor Telepon Kos' 
                                     placeholder='Masukkan no telepon yang dapat dihubungi'
                                     errors={errors}
@@ -200,18 +227,13 @@ function Register() {
                                 />
                                 <Box mb='20px' />
 
-                                <Flex minWidth='max-content' alignItems='center' gap='2'>
-                                    <Button onClick={() => setSelectedTab(0)} colorScheme='orangeChill' width='8em' borderRadius={10}>
-                                        Back
-                                    </Button>
-                                    <Spacer />
-                                    <Button id='signInButton' colorScheme='orangeChill' type='submit' width='8em' borderRadius={10}>
-                                    {isLoading ? <Spinner /> : "Sign Up"}
-                                    </Button>
-                                </Flex>
+                                <Button onClick={() => setSelectedTab(1)} colorScheme='orangeChill' width='8em' borderRadius={10}>
+                                    Next
+                                </Button>
                             </Box>
                             }
 
+                            <Box mb='20px' />
                             {errl.length !== 0 && (
                                 <div>
                                 <Text color='red'>Error:</Text>
