@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextInput from '../../components/textInput/TextInput.js';
 import PasswordInput from '../../components/passwordInput/PasswordInput.js';
 import { Button, Spinner, Text,Box, Flex, Grid, GridItem  } from '@chakra-ui/react';
@@ -15,12 +15,20 @@ import ROUTE from '../../config/api/Route.js';
 const Login = connect('user', actions)( 
     ({ setUser }) =>{
     const [responseMessage, setResponseMessage] = useState('')
+    const [isAuth, setIsAuth] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const isRegistered = (new URL(document.location)).searchParams.get("isRegistered") ? true : false
 
     const navigate = useNavigate();
 
-    if (!isAuthenticate()) {
+    useEffect(() => {
+        async function checkAuth() {
+            setIsAuth(await isAuthenticate())
+        }
+        checkAuth()
+    }, [])
+
+    if (!isAuth) {
         
     const {
       handleSubmit,
