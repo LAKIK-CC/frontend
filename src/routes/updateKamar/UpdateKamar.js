@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import BASE_URL from '../../config/api/Constant.js';
+import { getUserAccessToken } from '../../config/api/Auth.js';
+import ROUTE from "../../config/api/Route.js";
 
-import { Button, Spinner, Text,Box, Flex, Grid, GridItem, Checkbox, CheckboxGroup, Stack  } from '@chakra-ui/react';
+import { Button, Spinner, Text,Box, Flex, Grid, GridItem, Checkbox, Stack  } from '@chakra-ui/react';
 import TextInput from '../../components/textInput/TextInput.js';
 import TextArea from '../../components/textInput/TextArea';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { validateFieldsNatively } from "@hookform/resolvers";
 
 const schema = yup.object().shape({
-    noKamar: yup.string().required(),
+    noKamar: yup.string(),
     keterangan: yup.string(),
     tersedia: yup.boolean(),
     wcDalam: yup.boolean(),
@@ -20,38 +25,65 @@ const schema = yup.object().shape({
     springBed: yup.boolean()
 })
 
-const mockApi = {
-    noKamar: "a1",
-    lantai: 2,
-    keterangan: "aku suka kamar luthfi",
-    tersedia: true,
-    wcDalam: true,
-    ac: true,
-    listrik: false,
-    springBed: true
-}
-
 const UpdateKamar = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
 
     const { id } = useParams();
 
-    const checked = Object.fromEntries(Object.entries(mockApi).filter(([key, val]) => val === true));
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                await axios.get(
+                    `${BASE_URL}/v1/kamar/${id}`
+                )
+                .then( async (response) => {
+                    const fields = ["noKamar", "keterangan", "tersedia", "wcDalam", "ac", "listrik", "springBed"]
+                    fields.forEach((field) => {
+                        setValue(field, response.data.result[field])
+                    })
+                    setResponseMessage('')
+                    
+                })
+              } catch(error) {
+                  setResponseMessage(error['response']['data']['response'])
+                  setIsLoading(false)
+              }
+        }
+        fetchData()
+    }, [id])    
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [responseMessage, setResponseMessage] = useState('')
+    const navigate = useNavigate();
 
     const {
     handleSubmit,
     register,
     formState: { errors },
+    setValue,
+    control
     } = useForm({
-        defaultValues: mockApi,
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = (res) => {
+    const onSubmit = async (res) => {
         console.log(res);
-        navigate("/");
-    }
+        setIsLoading(true);
+        try {
+          await axios.put(`${BASE_URL}/v1/kamar/${id}`, res, {
+            headers: {
+              Authorization: `Bearer ${getUserAccessToken()}`
+            }
+          })
+          .then((response) => {
+              setResponseMessage('')
+              navigate(ROUTE.DASHBOARD)
+          })
+        } catch(error) {
+            setResponseMessage(error['response']['data']['response'])
+            setIsLoading(false)
+        }
+        navigate(ROUTE.DASHBOARD);
+      }
     return (
         <Flex
             minH='100vh'
@@ -72,29 +104,35 @@ const UpdateKamar = () => {
                         placeholder='Masukkan nomor kamar...'
                         errors={errors}
                         register={register}
-                        isDisabled
+                        rules={{
+                            required: 'Required'
+                        }}
+                        
                     />
                     <Box mb='20px' />
 
-                    <CheckboxGroup colorScheme='green' defaultValue={Object.keys(checked)}>
                     <Stack spacing={5} direction='row'>
-                        <Checkbox value="tersedia" colorScheme='green' {...register('tersedia')}>
-                        Tersedia
-                        </Checkbox>
-                        <Checkbox value="wcDalam" colorScheme='green' {...register('wcDalam')}>
-                        WC
-                        </Checkbox>
-                        <Checkbox value="ac" colorScheme='green' {...register('ac')}>
-                        AC
-                        </Checkbox>
-                        <Checkbox value="listrik" colorScheme='green' {...register('listrik')}>
-                        Listrik
-                        </Checkbox>
-                        <Checkbox value="springBed"colorScheme='green' {...register('springBed')}>
-                        Spring Bed
-                        </Checkbox>
+                        <Controller name="tersedia" control={control} render={({ field: { onChange, value } }) => (
+                            <Checkbox onChange={(e) => onChange(e)} isChecked={value} colorScheme='orangeChill'>Tersedia</Checkbox>
+                            )}
+                        />
+                        <Controller name="wcDalam" control={control} render={({ field: { onChange, value } }) => (
+                            <Checkbox onChange={(e) => onChange(e)} isChecked={value} colorScheme='orangeChill'>WC</Checkbox>
+                            )}
+                        />
+                        <Controller name="ac" control={control} render={({ field: { onChange, value } }) => (
+                            <Checkbox onChange={(e) => onChange(e)} isChecked={value} colorScheme='orangeChill'>AC</Checkbox>
+                            )}
+                        />
+                        <Controller name="listrik" control={control} render={({ field: { onChange, value } }) => (
+                            <Checkbox onChange={(e) => onChange(e)} isChecked={value} colorScheme='orangeChill'>Listrik</Checkbox>
+                            )}
+                        />
+                        <Controller name="springBed" control={control} render={({ field: { onChange, value } }) => (
+                            <Checkbox onChange={(e) => onChange(e)} isChecked={value} colorScheme='orangeChill'>Spring Bed</Checkbox>
+                            )}
+                        />
                     </Stack>
-                    </CheckboxGroup>
                     <Box mb='20px' />
                     <TextArea
                         id="keterangan"

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getUserAccessToken } from "../api/Auth.js"
+import { getUserAccessToken, getTokenExpiration } from "../api/Auth.js"
 import BASE_URL from '../api/Constant.js';
 import ROUTE from "../api/Route.js";
 import { Navigate } from 'react-router-dom';
@@ -7,19 +7,29 @@ import { Navigate } from 'react-router-dom';
 
 
 const AuthenticationChecker = ({children}) => {
-    return isAuthenticate() ? children : <Navigate to={ROUTE.LOGIN} replace />
+    console.log(isAuthenticate());
+    console.log("EXP" + getTokenExpiration());
+    // return isAuthenticate() ? children : <Navigate to={ROUTE.LOGIN} replace />
+    return children;
 }
 
-function isAuthenticate() {
-    let valid
-    isAuthenticateValid().then((data) => valid = data)
-    return (getUserAccessToken() != null) && valid
+const isAuthenticate = () => {
+    return isAuthenticateValidLocal() && getUserAccessToken() != null;
+    // return isAuthenticateValid().then((data) => {
+    //     return getUserAccessToken() != null && data
+    // })
 }
 
-const isAuthenticateValid = async () => { 
+const isAuthenticateValidLocal = () => {
+    if (Date.now() < getTokenExpiration()) {
+        return true;
+    } 
+    return false;
+}
+
+const isAuthenticateValid = () => { 
     let isMasuk = true
-    
-    await axios.get(`${BASE_URL}/v1/kamar`, {
+    axios.get(`${BASE_URL}/v1/kamar`, {
         headers: {
             Authorization: `Bearer ${getUserAccessToken()}`
         }

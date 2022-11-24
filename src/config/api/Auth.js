@@ -15,6 +15,14 @@ const setUserAccessToken = (token) => {
   }
 }
 
+const setTokenExpiration = () => {
+  localStorage.setItem('LAKIK_TOKEN_EXPIRATION', Date.now() + 30000)
+}
+
+const getTokenExpiration = () => {
+  localStorage.getItem('LAKIK_TOKEN_EXPIRATION')
+}
+
 const createNewUserAccessToken = () => {
   axios.get(`${BASE_URL}/v1/token/refresh`, {
     headers: {
@@ -56,5 +64,6 @@ const deleteUserRefreshToken = () => {
 
 export {
   getUserAccessToken, setUserAccessToken, deleteUserAccessToken, createNewUserAccessToken,
-  getUserRefreshToken, setUserRefreshToken, deleteUserRefreshToken
+  getUserRefreshToken, setUserRefreshToken, deleteUserRefreshToken, setTokenExpiration,
+  getTokenExpiration
 }

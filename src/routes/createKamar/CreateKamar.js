@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 const schema = yup.object().shape({
-  noKamar: yup.string().required(),
+  noKamar: yup.string(),
   keterangan: yup.string(),
   tersedia: yup.boolean(),
   wcDalam: yup.boolean(),
@@ -34,8 +34,10 @@ const CreateKamar = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-
+  console.log(responseMessage);
   const onSubmit = async (res) => {
+    console.log("RES:",res);
+    
     setIsLoading(true);
     try {
       await axios.post(`${BASE_URL}/v1/kamar`, res, {
@@ -45,7 +47,7 @@ const CreateKamar = () => {
       })
       .then((response) => {
           setResponseMessage('')
-          navigate(ROUTE.LOGIN)
+          navigate(ROUTE.DASHBOARD)
       })
     } catch(error) {
         setResponseMessage(error['response']['data']['response'])
@@ -74,24 +76,27 @@ const CreateKamar = () => {
                   placeholder='Masukkan nomor kamar...'
                   errors={errors}
                   register={register}
+                  rules={
+                    {required: 'Required'}
+                  }
               />
               <Box mb='20px' />
 
-              <CheckboxGroup colorScheme='green' >
+              <CheckboxGroup colorScheme='orangeChill' >
                 <Stack spacing={5} direction='row'>
-                  <Checkbox colorScheme='green' {...register('tersedia')}>
+                  <Checkbox colorScheme='orangeChill' {...register('tersedia')}>
                     Tersedia
                   </Checkbox>
-                  <Checkbox colorScheme='green' {...register('wcDalam')}>
+                  <Checkbox colorScheme='orangeChill' {...register('wcDalam')}>
                     WC
                   </Checkbox>
-                  <Checkbox colorScheme='green' {...register('ac')}>
+                  <Checkbox colorScheme='orangeChill' {...register('ac')}>
                     AC
                   </Checkbox>
-                  <Checkbox colorScheme='green' {...register('listrik')}>
+                  <Checkbox colorScheme='orangeChill' {...register('listrik')}>
                     Listrik
                   </Checkbox>
-                  <Checkbox colorScheme='green' {...register('springBed')}>
+                  <Checkbox colorScheme='orangeChill' {...register('springBed')}>
                     Spring Bed
                   </Checkbox>
                 </Stack>

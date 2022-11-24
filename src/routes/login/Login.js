@@ -7,7 +7,7 @@ import { connect } from 'unistore/react';
 import { actions } from '../../config/store/Store.js';
 import axios from 'axios';
 import BASE_URL from '../../config/api/Constant.js';
-import { setUserAccessToken, setUserRefreshToken } from '../../config/api/Auth.js';
+import { setUserAccessToken, setUserRefreshToken, setTokenExpiration } from '../../config/api/Auth.js';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticate } from '../../config/middleware/Middleware.js';
 import ROUTE from '../../config/api/Route.js';
@@ -37,6 +37,7 @@ const Login = connect('user', actions)(
                 setResponseMessage('')
                 setUserAccessToken(response['data']['accessToken'])
                 setUserRefreshToken(response['data']['refreshToken'])
+                setTokenExpiration()
                 setUser(response['data']['username'])
                 navigate(ROUTE.DASHBOARD)
             })
