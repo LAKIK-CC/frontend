@@ -5,6 +5,9 @@ import CardKamar from '../../components/cardKamar/CardKamar'
 import { FaBed, FaCheck, FaSearch, FaShower, FaTemperatureLow } from 'react-icons/fa'
 import { AiFillThunderbolt } from 'react-icons/ai'
 import { GiCancel } from 'react-icons/gi'
+import axios from 'axios'
+import BASE_URL from '../../config/api/Constant'
+import { getUserAccessToken } from '../../config/api/Auth'
 
 const dummyData = [
   {
@@ -56,6 +59,7 @@ const dummyData = [
 
 
 export default function ListKamar() {
+  const [kos, setKos] = useState([])
   const [rooms, setRooms] = useState([])
   const [roomsToShow, setRoomsToShow] = useState([])
   const [searchBox, setSearchBox] = useState('')
@@ -88,8 +92,27 @@ export default function ListKamar() {
 
   useEffect(() => {
     if (rooms.length === 0) {
-      setRooms(dummyData)
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`${BASE_URL}/v1/kamar`,
+            {
+              headers: {
+                Authorization: `Bearer ${getUserAccessToken()}`
+              }
+            }
+          )
+
+          const { listKamar, ...kos } = response.data.result
+          setKos(kos)
+          setRooms(listKamar)
+        } catch (error) {
+          console.log('Error while fetching data...')
+          console.log(error)
+        }
+      }
+      fetchData()
     }
+
 
     let tempRoom = [...rooms]
 
@@ -121,10 +144,10 @@ export default function ListKamar() {
     <Box w='75%' m='0 auto 5rem'>
       <Flex m='3rem 0' direction='column' textAlign='center' alignItems='center' gap='2rem' className='header-group'>
         <Box>
-          <Heading>Kos Mihana Performance</Heading>
-          <Text color='gray'>Jl. Mandor Goweng No. 87, Mantap mantap mantap, Kec bla bla</Text>
-          <Text color='gray'>+6287285314177</Text>
-          <Text m='1rem 0 0'>Non consectetur consequat fugiat sunt ea et. Ipsum fugiat sunt ea eiusmod non proident. Cillum duis exercitation id sit consectetur amet minim veniam nostrud. Pariatur ipsum eu voluptate nostrud amet minim est in sit tempor mollit amet laborum.</Text>
+          <Heading>{kos.namaKos}</Heading>
+          <Text color='gray'>{kos.alamatKos}</Text>
+          <Text color='gray'>{kos.nomorTeleponKos}</Text>
+          <Text m='1rem 0 0'>{kos.deskripsiKos}</Text>
         </Box>
 
         <InputGroup w='15rem'>

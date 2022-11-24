@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, List } from '@chakra-ui/react';
 import { Provider } from 'unistore/react';
 import { store } from './config/store/Store.js';
 import theme from './config/theme/Theme.js';
@@ -22,6 +22,7 @@ const App = () => {
 			<ChakraProvider theme={theme}>
 				<Router>
 					<Routes>
+						<Route path={ROUTE.DASHBOARD} element={<ListKamar />} />
 						<Route exact path={ROUTE.LOGIN} element={<Login />} />
 						<Route exact path={ROUTE.REGISTER} element={<Register />} />
 						<Route exact path={ROUTE.CREATE_KAMAR} element={
