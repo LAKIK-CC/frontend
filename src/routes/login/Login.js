@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import TextInput from '../../components/textInput/TextInput.js';
 import PasswordInput from '../../components/passwordInput/PasswordInput.js';
 import { Button, Spinner, Text,Box, Flex, Grid, GridItem  } from '@chakra-ui/react';
@@ -9,26 +9,15 @@ import axios from 'axios';
 import BASE_URL from '../../config/api/Constant.js';
 import { setUserAccessToken, setUserRefreshToken } from '../../config/api/Auth.js';
 import { useNavigate } from 'react-router-dom';
-import { isAuthenticate } from '../../config/middleware/Middleware.js';
 import ROUTE from '../../config/api/Route.js';
 
 const Login = connect('user', actions)( 
     ({ setUser }) =>{
     const [responseMessage, setResponseMessage] = useState('')
-    const [isAuth, setIsAuth] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const isRegistered = (new URL(document.location)).searchParams.get("isRegistered") ? true : false
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        async function checkAuth() {
-            setIsAuth(await isAuthenticate())
-        }
-        checkAuth()
-    }, [])
-
-    if (!isAuth) {
         
     const {
       handleSubmit,
@@ -124,10 +113,7 @@ const Login = connect('user', actions)(
                 </GridItem>
             </Grid>
         </Flex>
-            );
-        } 
-            navigate(ROUTE.DASHBOARD)
-        
+    );        
 }
 )
 

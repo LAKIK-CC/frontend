@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import TextInput from '../../components/textInput/TextInput.js';
 import TextAreaInput from '../../components/textAreaInput/TextAreaInput.js';
 import PasswordInput from '../../components/passwordInput/PasswordInput.js'
@@ -6,13 +6,11 @@ import { Button, Text, Spinner,Box, Flex, Grid, GridItem, Spacer  } from '@chakr
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import ROUTE from '../../config/api/Route.js';
-import { isAuthenticate } from '../../config/middleware/Middleware.js';
 import BASE_URL from '../../config/api/Constant.js';
 import axios from "axios";
 
 function Register() {
     const [errl, setErrl] = useState([])
-    const [isAuth, setIsAuth] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedTab, setSelectedTab] = useState(0);
 
@@ -27,18 +25,6 @@ function Register() {
             deskripsiKos: "",
         }
     });
-
-    useEffect(() => {
-        async function checkAuth() {
-            setIsAuth(await isAuthenticate())
-        }
-        checkAuth()
-    }, [])
-
-    if (isAuth) {
-        navigate(ROUTE.DASHBOARD);
-        return;
-    }
 
     const onSubmit = (data) => {
         setIsLoading(true)
