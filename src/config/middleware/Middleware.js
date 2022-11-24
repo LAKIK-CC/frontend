@@ -1,14 +1,33 @@
-import { useNavigate } from 'react-router-dom';
-import { getUserToken } from "../api/Auth.js"
-import ROUTE from "../api/Route.js"
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { getUserAccessToken } from "../api/Auth.js"
+import BASE_URL from '../api/Constant.js';
+import ROUTE from "../api/Route.js";
+import { Navigate } from 'react-router-dom';
 
 const AuthenticationChecker = ({children}) => {
-    const navigate = useNavigate();
-    return isAuthenticate() ? children : navigate(ROUTE.LOGIN)
+    return isAuthenticate() ? children : <Navigate to={ROUTE.LOGIN} replace />
 }
 
-function isAuthenticate() {
-    return (getUserToken() != null)
-}
+const isAuthenticate = async () => { 
+    let isMasuk = true
+    try {
+        await axios.get(`${BASE_URL}/dummy`, {
+            headers: {
+                Authorization: `Bearer ${getUserAccessToken()}`
+            }
+        })
+    } catch(error) {
+        if (error.status === 500) {
+            const traceError = error.response['data']['trace']
+            const invalidUserAccessToken = traceError.includes('com.auth0.jwt.exceptions.JWTDecodeException')
+            const tokenExpiredException = traceError.includes('com.auth0.jwt.exceptions.TokenExpiredException')
+            if (invalidUserAccessToken || tokenExpiredException) {
+                isMasuk = false
+            }
+        }
+    }
+    return isMasuk
+  }
 
 export {AuthenticationChecker, isAuthenticate}
