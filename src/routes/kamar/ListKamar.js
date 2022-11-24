@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Heading, HStack, Input, InputGroup, InputLeftElement, Stack, Text } from '@chakra-ui/react'
 import './ListKamar.css'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import CardKamar from '../../components/cardKamar/CardKamar'
 import { FaBed, FaCheck, FaSearch, FaShower, FaTemperatureLow } from 'react-icons/fa'
 import { AiFillThunderbolt } from 'react-icons/ai'
@@ -59,7 +59,7 @@ const dummyData = [
 
 
 export default function ListKamar() {
-  const [kos, setKos] = useState([])
+  const [kos, setKos] = useState({})
   const [rooms, setRooms] = useState([])
   const [roomsToShow, setRoomsToShow] = useState([])
   const [searchBox, setSearchBox] = useState('')
@@ -100,6 +100,7 @@ export default function ListKamar() {
         }
       )
 
+      console.log(response.data)
       const { listKamar, ...kos } = response.data.result
       setKos(kos)
       setRooms(listKamar)
@@ -109,23 +110,21 @@ export default function ListKamar() {
     }
   }
 
-  const deleteBtnClicked = async (id) => {
-    await axios.delete(`${BASE_URL}/v1/kamar/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${getUserAccessToken()}`
+  const deleteBtnClicked = useCallback(
+    async (id) => {
+      await axios.delete(`${BASE_URL}/v1/kamar/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${getUserAccessToken()}`
+          }
         }
-      }
-    )
-    fetchData()
-  }
+      )
+      fetchData()
+    },
+    [],
+  )
 
   useEffect(() => {
-    if (rooms.length === 0) {
-      fetchData()
-    }
-
-
     let tempRoom = [...rooms]
 
     if (searchBox) {
@@ -147,9 +146,13 @@ export default function ListKamar() {
         tempRoom = tempRoom.filter(room => room[filter])
       }
     }
-    console.log(tempRoom)
     setRoomsToShow(tempRoom)
   }, [rooms, searchBox, availFilter, filters])
+
+  useEffect(() => {
+    console.log('Mounting...')
+    fetchData()
+  }, [])
   
 
   return (
