@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom'
 export default function CardKamar(props) {
 
   const {
+    id,
     noKamar,
     wcDalam,
     ac,
@@ -20,13 +21,15 @@ export default function CardKamar(props) {
     listrik,
     tersedia,
     keterangan,
+    onDelete
   } = props
 
+
+  console.log(props)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
-  const dialogOnSubmit = () => {
-    console.log('Submitted')
-
+  const dialogOnSubmit = async (id) => {
+    await onDelete(id)
     setDeleteDialogOpen(false)
   }
 
@@ -53,7 +56,7 @@ export default function CardKamar(props) {
                 </Text>}
                 buttonRightText='Hapus'
                 buttonLeftText='Batal'
-                onSubmit={dialogOnSubmit}
+                onSubmit={() => dialogOnSubmit(id)}
               />
             </Flex>
           </Flex>

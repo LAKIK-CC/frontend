@@ -90,26 +90,38 @@ export default function ListKamar() {
     setFilters(copyFilters)
   }
 
-  useEffect(() => {
-    if (rooms.length === 0) {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get(`${BASE_URL}/v1/kamar`,
-            {
-              headers: {
-                Authorization: `Bearer ${getUserAccessToken()}`
-              }
-            }
-          )
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/v1/kamar`,
+        {
+          headers: {
+            Authorization: `Bearer ${getUserAccessToken()}`
+          }
+        }
+      )
 
-          const { listKamar, ...kos } = response.data.result
-          setKos(kos)
-          setRooms(listKamar)
-        } catch (error) {
-          console.log('Error while fetching data...')
-          console.log(error)
+      const { listKamar, ...kos } = response.data.result
+      setKos(kos)
+      setRooms(listKamar)
+    } catch (error) {
+      console.log('Error while fetching data...')
+      console.log(error)
+    }
+  }
+
+  const deleteBtnClicked = async (id) => {
+    await axios.delete(`${BASE_URL}/v1/kamar/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${getUserAccessToken()}`
         }
       }
+    )
+    fetchData()
+  }
+
+  useEffect(() => {
+    if (rooms.length === 0) {
       fetchData()
     }
 
@@ -193,7 +205,7 @@ export default function ListKamar() {
         {roomsToShow ?
           roomsToShow.map(data => {
             return (
-              <CardKamar {...data} />
+              <CardKamar {...data} onDelete={deleteBtnClicked} />
             )
           })
           :
