@@ -21,6 +21,7 @@ const Login = connect('user', actions)(
     const navigate = useNavigate();
 
     if (!isAuthenticate()) {
+        
     const {
       handleSubmit,
       register,
@@ -32,7 +33,7 @@ const Login = connect('user', actions)(
         try {
             await axios.post(`${BASE_URL}/v1/user/login`, data)
             .then((response) => {
-                response = JSON.parse(response)
+                response = JSON.parse(JSON.stringify(response))
                 setResponseMessage('')
                 setUserAccessToken(response['data']['accessToken'])
                 setUserRefreshToken(response['data']['refreshToken'])
@@ -40,7 +41,7 @@ const Login = connect('user', actions)(
                 navigate(ROUTE.DASHBOARD)
             })
         } catch(error) {
-            setResponseMessage(error['response']['data']['response'])
+            // setResponseMessage(error['response']['data']['response'])
             setIsLoading(false)
         }
     };
