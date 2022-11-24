@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TextInput from '../../components/textInput/TextInput.js';
 import TextAreaInput from '../../components/textAreaInput/TextAreaInput.js';
 import PasswordInput from '../../components/passwordInput/PasswordInput.js'
@@ -12,6 +12,7 @@ import axios from "axios";
 
 function Register() {
     const [errl, setErrl] = useState([])
+    const [isAuth, setIsAuth] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedTab, setSelectedTab] = useState(0);
 
@@ -27,7 +28,14 @@ function Register() {
         }
     });
 
-    if (isAuthenticate()) {
+    useEffect(() => {
+        async function checkAuth() {
+            setIsAuth(await isAuthenticate())
+        }
+        checkAuth()
+    }, [])
+
+    if (isAuth) {
         navigate(ROUTE.DASHBOARD);
         return;
     }
