@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormControl, FormLabel, FormErrorMessage, Box, Textarea } from '@chakra-ui/react';
-import { Input } from '@chakra-ui/input';
 import Asterisk from '../asterisk/Asterisk';
 import './style.css'
 
