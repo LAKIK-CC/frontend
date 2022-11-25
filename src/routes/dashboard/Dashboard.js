@@ -1,12 +1,13 @@
-import { Box, Button, Flex, Heading, Input, InputGroup, InputLeftElement, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading, Input, InputGroup, InputLeftElement, Stack, Text, IconButton } from '@chakra-ui/react'
 import React, { useCallback, useEffect, useState } from 'react'
 import CardKamar from '../../components/cardKamar/CardKamar'
 import { FaBed, FaCheck, FaSearch, FaShower, FaTemperatureLow } from 'react-icons/fa'
-import { AiFillThunderbolt } from 'react-icons/ai'
+import { AiFillThunderbolt, AiOutlinePlus } from 'react-icons/ai'
 import { GiCancel } from 'react-icons/gi'
 import axios from 'axios'
 import BASE_URL from '../../config/api/Constant'
 import { getUserAccessToken } from '../../config/api/Auth'
+import { Link } from 'react-router-dom'
 
 export default function ListKamar() {
   const [kos, setKos] = useState({})
@@ -122,8 +123,24 @@ export default function ListKamar() {
           />
           <Input type='search' placeholder='Cari kamar...' onChange={searchBoxChanged} />
         </InputGroup>
+        <Link to={'/create'}>
+          <Box
+            onClick={() => console.log('Create clicked')}
+            position='fixed'
+            bottom='30px'
+            right={['16px', '84px']}
+            zIndex={3}>
+            <IconButton
+              size={'lg'}
+              icon={<AiOutlinePlus />}
+              colorScheme='orangeChill'
+              variant='solid'>
+            </IconButton>
+          </Box>
+        </Link>
 
         <Stack alignItems='center'>
+              
           <Flex gap='1rem' wrap='wrap' alignItems='center'>
             <Button colorScheme='orangeChill' {...(availFilter === 'available' ? null : {variant: 'outline'})} onClick={() => availBtnClicked('available')} leftIcon={<FaCheck />}>
               Tersedia
