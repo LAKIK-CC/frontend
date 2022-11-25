@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ChakraProvider } from '@chakra-ui/react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
+import { ChakraProvider, List } from '@chakra-ui/react';
 import { Provider } from 'unistore/react';
 import { store } from './config/store/Store.js';
 import theme from './config/theme/Theme.js';
@@ -11,6 +11,7 @@ import Register from './routes/register/Register.js';
 import CreateKamar from './routes/createKamar/CreateKamar.js';
 import Dashboard from './routes/dashboard/Dashboard.js';
 import './config/middleware/Axios.js';
+import ListKamar from './routes/kamar/ListKamar.js';
 import UpdateKamar from './routes/updateKamar/UpdateKamar.js';
 import NotFound from './routes/not-found/NotFound.js';
 
@@ -21,16 +22,9 @@ const App = () => {
 			<ChakraProvider theme={theme}>
 				<Router>
 					<Routes>
-						<Route exact path={ROUTE.LOGIN} element={
-							<AuthenticationCheckerToDashboard>
-								<Login />
-							</AuthenticationCheckerToDashboard>} 
-						/>
-						<Route exact path={ROUTE.REGISTER} element={
-							<AuthenticationCheckerToDashboard>
-								<Register />
-							</AuthenticationCheckerToDashboard>} 
-						/>
+						<Route path={ROUTE.DASHBOARD} element={<ListKamar />} />
+						<Route exact path={ROUTE.LOGIN} element={<Login />} />
+						<Route exact path={ROUTE.REGISTER} element={<Register />} />
 						<Route exact path={ROUTE.CREATE_KAMAR} element={
 							<AuthenticationCheckerToLogin>
 								<CreateKamar />
