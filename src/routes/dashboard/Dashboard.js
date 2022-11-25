@@ -51,13 +51,10 @@ export default function ListKamar() {
         }
       )
 
-      console.log(response.data)
       const { listKamar, ...kos } = response.data.result
       setKos(kos)
       setRooms(listKamar)
     } catch (error) {
-      console.log('Error while fetching data...')
-      console.log(error)
     }
   }
 
@@ -83,7 +80,6 @@ export default function ListKamar() {
     }
 
     if (availFilter) {
-      console.log('avail filter ran')
       tempRoom = tempRoom.filter(room => {
         if (availFilter === 'available') {
           return room.tersedia
@@ -101,7 +97,6 @@ export default function ListKamar() {
   }, [rooms, searchBox, availFilter, filters])
 
   useEffect(() => {
-    console.log('Mounting...')
     fetchData()
   }, [])
 
@@ -125,7 +120,6 @@ export default function ListKamar() {
         </InputGroup>
         <Link to={'/create'}>
           <Box
-            onClick={() => console.log('Create clicked')}
             position='fixed'
             bottom='30px'
             right={['16px', '84px']}

@@ -34,10 +34,7 @@ const CreateKamar = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  console.log(responseMessage);
   const onSubmit = async (res) => {
-    console.log("RES:",res);
-    
     setIsLoading(true);
     try {
       await axios.post(`${BASE_URL}/v1/kamar`, res, {

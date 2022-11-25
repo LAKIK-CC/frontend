@@ -25,7 +25,6 @@ export default function CardKamar(props) {
   } = props
 
 
-  console.log(props)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   const dialogOnSubmit = async (id) => {
@@ -40,7 +39,7 @@ export default function CardKamar(props) {
             <Heading fontSize={{sm: '1.5rem', md: '2rem'}}>{noKamar}</Heading>
             <Flex gap='1rem'>
               <Link to={'/' + id + '/edit'}>
-                <Button colorScheme='orangeChill' onClick={() => console.log('Update clicked')}>
+                <Button colorScheme='orangeChill'>
                   <FiEdit2 />
                 </Button>
               </Link>

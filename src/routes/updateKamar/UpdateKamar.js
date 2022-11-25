@@ -13,7 +13,6 @@ import * as yup from "yup";
 
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { validateFieldsNatively } from "@hookform/resolvers";
 
 const schema = yup.object().shape({
     noKamar: yup.string(),
@@ -65,7 +64,6 @@ const UpdateKamar = () => {
     });
 
     const onSubmit = async (res) => {
-        console.log(res);
         setIsLoading(true);
         try {
           await axios.put(`${BASE_URL}/v1/kamar/${id}`, res, {

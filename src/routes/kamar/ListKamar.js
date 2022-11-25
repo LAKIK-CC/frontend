@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, HStack, Input, InputGroup, InputLeftElement, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading, Input, InputGroup, InputLeftElement, Stack, Text } from '@chakra-ui/react'
 import './ListKamar.css'
 import React, { useCallback, useEffect, useState } from 'react'
 import CardKamar from '../../components/cardKamar/CardKamar'
@@ -8,55 +8,6 @@ import { GiCancel } from 'react-icons/gi'
 import axios from 'axios'
 import BASE_URL from '../../config/api/Constant'
 import { getUserAccessToken } from '../../config/api/Auth'
-
-const dummyData = [
-  {
-    noKamar: 'No. 123',
-    wcDalam: true,
-    ac: true,
-    springBed: true,
-    listrik: true,
-    keterangan: 'Ex incididunt ut consectetur exercitation enim anim. Magna exercitation proident id nisi pariatur. Non nostrud fugiat eiusmod ex consequat voluptate aliqua sint ut minim labore ut in excepteur. Laborum veniam reprehenderit nulla non qui reprehenderit mollit. Sit aliquip officia cupidatat laboris duis minim officia proident commodo laboris amet enim. Cillum esse ea ut in laboris labore labore excepteur velit anim incididunt. Ad ea qui et ea tempor esse consequat anim ut enim deserunt.',
-    tersedia: false,
-  },
-  {
-    noKamar: 'No. 124',
-    wcDalam: false,
-    ac: true,
-    springBed: true,
-    listrik: true,
-    keterangan: 'Ex incididunt ut consectetur exercitation enim anim. Magna exercitation proident id nisi pariatur. Non nostrud fugiat eiusmod ex consequat voluptate aliqua sint ut minim labore ut in excepteur. Laborum veniam reprehenderit nulla non qui reprehenderit mollit. Sit aliquip officia cupidatat laboris duis minim officia proident commodo laboris amet enim. Cillum esse ea ut in laboris labore labore excepteur velit anim incididunt. Ad ea qui et ea tempor esse consequat anim ut enim deserunt.',
-    tersedia: true,
-  },
-  {
-    noKamar: 'No. 125',
-    wcDalam: true,
-    ac: true,
-    springBed: true,
-    listrik: true,
-    keterangan: 'Ex incididunt ut consectetur exercitation enim anim. Magna exercitation proident id nisi pariatur. Non nostrud fugiat eiusmod ex consequat voluptate aliqua sint ut minim labore ut in excepteur. Laborum veniam reprehenderit nulla non qui reprehenderit mollit. Sit aliquip officia cupidatat laboris duis minim officia proident commodo laboris amet enim. Cillum esse ea ut in laboris labore labore excepteur velit anim incididunt. Ad ea qui et ea tempor esse consequat anim ut enim deserunt.',
-    tersedia: true,
-  },
-  {
-    noKamar: 'No. 126',
-    wcDalam: true,
-    ac: true,
-    springBed: true,
-    listrik: true,
-    keterangan: 'Ex incididunt ut consectetur exercitation enim anim. Magna exercitation proident id nisi pariatur. Non nostrud fugiat eiusmod ex consequat voluptate aliqua sint ut minim labore ut in excepteur. Laborum veniam reprehenderit nulla non qui reprehenderit mollit. Sit aliquip officia cupidatat laboris duis minim officia proident commodo laboris amet enim. Cillum esse ea ut in laboris labore labore excepteur velit anim incididunt. Ad ea qui et ea tempor esse consequat anim ut enim deserunt.',
-    tersedia: true,
-  },
-  {
-    noKamar: 'No. 127',
-    wcDalam: true,
-    ac: true,
-    springBed: true,
-    listrik: true,
-    keterangan: 'Ex incididunt ut consectetur exercitation enim anim. Magna exercitation proident id nisi pariatur. Non nostrud fugiat eiusmod ex consequat voluptate aliqua sint ut minim labore ut in excepteur. Laborum veniam reprehenderit nulla non qui reprehenderit mollit. Sit aliquip officia cupidatat laboris duis minim officia proident commodo laboris amet enim. Cillum esse ea ut in laboris labore labore excepteur velit anim incididunt. Ad ea qui et ea tempor esse consequat anim ut enim deserunt.',
-    tersedia: true,
-  },
-]
-
 
 export default function ListKamar() {
   const [kos, setKos] = useState({})
@@ -100,13 +51,11 @@ export default function ListKamar() {
         }
       )
 
-      console.log(response.data)
       const { listKamar, ...kos } = response.data.result
       setKos(kos)
       setRooms(listKamar)
     } catch (error) {
-      console.log('Error while fetching data...')
-      console.log(error)
+      
     }
   }
 
@@ -132,7 +81,6 @@ export default function ListKamar() {
     }
 
     if (availFilter) {
-      console.log('avail filter ran')
       tempRoom = tempRoom.filter(room => {
         if (availFilter === 'available') {
           return room.tersedia
@@ -150,7 +98,6 @@ export default function ListKamar() {
   }, [rooms, searchBox, availFilter, filters])
 
   useEffect(() => {
-    console.log('Mounting...')
     fetchData()
   }, [])
   
