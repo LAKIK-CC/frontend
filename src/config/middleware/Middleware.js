@@ -3,33 +3,43 @@ import { getUserAccessToken } from "../api/Auth.js"
 import BASE_URL from '../api/Constant.js';
 import ROUTE from "../api/Route.js";
 import { Navigate } from 'react-router-dom';
+import { useState } from 'react';
 
-
-
-const AuthenticationChecker = ({children}) => {
-    return isAuthenticate() ? children : <Navigate to={ROUTE.LOGIN} replace />
+const AuthenticationCheckerToLogin = ({children}) => {
+    const [auth, setAuth] = useState(undefined)
+    isAuthenticate(setAuth);
+    if (auth !== undefined) {
+        return auth ? children : <Navigate to={ROUTE.LOGIN} replace />
+    }
 }
 
-function isAuthenticate() {
-    let valid
-    isAuthenticateValid().then((data) => valid = data)
-    return (getUserAccessToken() != null) && valid
+const AuthenticationCheckerToDashboard = ({children}) => {
+    const [auth, setAuth] = useState(undefined)
+    isAuthenticate(setAuth);
+    if (auth !== undefined) {
+        return auth ? <Navigate to={ROUTE.DASHBOARD} replace /> : children
+    }
 }
 
-const isAuthenticateValid = async () => { 
-    let isMasuk = true
-    
-    await axios.get(`${BASE_URL}/v1/kamar`, {
+const isAuthenticate = (setAuth) => { 
+    let isMasuk
+    axios.get(`${BASE_URL}/dummy`, {
         headers: {
             Authorization: `Bearer ${getUserAccessToken()}`
-        }
+        },
     }).catch((error) => {
-    
-        if (error.response['data']['trace'].includes('com.auth0.jwt.exceptions.TokenExpiredException')) {
-            isMasuk = false
+        isMasuk = true
+        if (error.response) {
+            const traceError = error['response']['data']['trace']
+            const invalidUserAccessToken = traceError.includes('com.auth0.jwt.exceptions.JWTDecodeException')
+            const tokenExpiredException = traceError.includes('com.auth0.jwt.exceptions.TokenExpiredException')
+            if (invalidUserAccessToken || tokenExpiredException) {
+                isMasuk = false
+            }
         }
+        setAuth(isMasuk)
     })
     return isMasuk
-  }
+}
 
-export {AuthenticationChecker, isAuthenticate, isAuthenticateValid}
+export {AuthenticationCheckerToLogin, AuthenticationCheckerToDashboard, isAuthenticate}

@@ -6,7 +6,6 @@ import { Button, Text, Spinner,Box, Flex, Grid, GridItem, Spacer  } from '@chakr
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import ROUTE from '../../config/api/Route.js';
-import { isAuthenticate } from '../../config/middleware/Middleware.js';
 import BASE_URL from '../../config/api/Constant.js';
 import axios from "axios";
 
@@ -26,11 +25,6 @@ function Register() {
             deskripsiKos: "",
         }
     });
-
-    if (isAuthenticate()) {
-        navigate(ROUTE.DASHBOARD);
-        return;
-    }
 
     const onSubmit = (data) => {
         setIsLoading(true)

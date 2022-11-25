@@ -1,11 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import { ChakraProvider, List } from '@chakra-ui/react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ChakraProvider } from '@chakra-ui/react';
 import { Provider } from 'unistore/react';
 import { store } from './config/store/Store.js';
 import theme from './config/theme/Theme.js';
 import ROUTE from './config/api/Route.js';
-import { AuthenticationChecker, isAuthenticate } from './config/middleware/Middleware.js';
+import { AuthenticationCheckerToDashboard, AuthenticationCheckerToLogin } from './config/middleware/Middleware.js';
 import Login from './routes/login/Login.js';
 import Register from './routes/register/Register.js';
 import CreateKamar from './routes/createKamar/CreateKamar.js';
@@ -22,18 +22,30 @@ const App = () => {
 			<ChakraProvider theme={theme}>
 				<Router>
 					<Routes>
-						<Route path={ROUTE.DASHBOARD} element={<ListKamar />} />
-						<Route exact path={ROUTE.LOGIN} element={<Login />} />
-						<Route exact path={ROUTE.REGISTER} element={<Register />} />
+						<Route exact path={ROUTE.LOGIN} element={
+							<AuthenticationCheckerToDashboard>
+								<Login />
+							</AuthenticationCheckerToDashboard>} 
+						/>
+						<Route exact path={ROUTE.REGISTER} element={
+							<AuthenticationCheckerToDashboard>
+								<Register />
+							</AuthenticationCheckerToDashboard>} 
+						/>
 						<Route exact path={ROUTE.CREATE_KAMAR} element={
-							<AuthenticationChecker>
+							<AuthenticationCheckerToLogin>
 								<CreateKamar />
-							</AuthenticationChecker>} 
+							</AuthenticationCheckerToLogin>} 
 						/>
 						<Route exact path={ROUTE.EDIT_KAMAR} element={
-							<AuthenticationChecker>
+							<AuthenticationCheckerToLogin>
 								<UpdateKamar />
-							</AuthenticationChecker>} 
+							</AuthenticationCheckerToLogin>} 
+						/>
+						<Route exact path={ROUTE.DASHBOARD} element={
+							<AuthenticationCheckerToLogin>
+								<Dashboard />
+							</AuthenticationCheckerToLogin>} 
 						/>
 						<Route path='*' element={<NotFound />} />
 					</Routes>	

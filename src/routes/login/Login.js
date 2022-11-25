@@ -9,7 +9,6 @@ import axios from 'axios';
 import BASE_URL from '../../config/api/Constant.js';
 import { setUserAccessToken, setUserRefreshToken } from '../../config/api/Auth.js';
 import { useNavigate } from 'react-router-dom';
-import { isAuthenticate } from '../../config/middleware/Middleware.js';
 import ROUTE from '../../config/api/Route.js';
 
 const Login = connect('user', actions)( 
@@ -19,8 +18,6 @@ const Login = connect('user', actions)(
     const isRegistered = (new URL(document.location)).searchParams.get("isRegistered") ? true : false
 
     const navigate = useNavigate();
-
-    if (!isAuthenticate()) {
         
     const {
       handleSubmit,
@@ -116,10 +113,7 @@ const Login = connect('user', actions)(
                 </GridItem>
             </Grid>
         </Flex>
-            );
-        } 
-            navigate(ROUTE.DASHBOARD)
-        
+    );        
 }
 )
 
