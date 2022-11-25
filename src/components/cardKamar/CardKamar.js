@@ -40,7 +40,7 @@ export default function CardKamar(props) {
             <Heading fontSize={{sm: '1.5rem', md: '2rem'}}>{noKamar}</Heading>
             <Flex gap='1rem'>
               <Link to={'/' + id + '/edit'}>
-                <Button colorScheme='orange' onClick={() => console.log('Update clicked')}>
+                <Button colorScheme='orangeChill' onClick={() => console.log('Update clicked')}>
                   <FiEdit2 />
                 </Button>
               </Link>
