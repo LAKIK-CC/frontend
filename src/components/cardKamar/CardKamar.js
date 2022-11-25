@@ -6,9 +6,11 @@ import Alerts from '../alerts/Alerts'
 import { FiEdit2, FiTrash2 } from 'react-icons/fi'
 import { AiFillThunderbolt } from 'react-icons/ai'
 import { FaShower, FaTemperatureLow, FaBed } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import ROUTE from '../../config/api/Route'
 
 export default function CardKamar(props) {
 
@@ -25,7 +27,7 @@ export default function CardKamar(props) {
   } = props
 
 
-  console.log(props)
+  const navigate = useNavigate();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   const dialogOnSubmit = async (id) => {
@@ -40,7 +42,8 @@ export default function CardKamar(props) {
             <Heading fontSize={{sm: '1.5rem', md: '2rem'}}>{noKamar}</Heading>
             <Flex gap='1rem'>
               <Link to='/'>
-                <Button colorScheme='orange' onClick={() => console.log('Update clicked')}>
+                <Button colorScheme='orange' onClick={() => {navigate("/" +id+"/edit")
+              console.log("/" +id+"/edit");}}>
                   <FiEdit2 />
                 </Button>
               </Link>

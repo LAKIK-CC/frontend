@@ -19,32 +19,17 @@ const schema = yup.object().shape({
     listrik: yup.boolean(),
     springBed: yup.boolean()
 })
-
-const mockApi = {
-    noKamar: "a1",
-    lantai: 2,
-    keterangan: "aku suka kamar luthfi",
-    tersedia: true,
-    wcDalam: true,
-    ac: true,
-    listrik: false,
-    springBed: true
-}
-
 const UpdateKamar = () => {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const { id } = useParams();
 
-    const checked = Object.fromEntries(Object.entries(mockApi).filter(([key, val]) => val === true));
-
     const {
     handleSubmit,
     register,
     formState: { errors },
     } = useForm({
-        defaultValues: mockApi,
         resolver: yupResolver(schema),
     });
 
