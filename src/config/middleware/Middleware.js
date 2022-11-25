@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { getUserAccessToken } from "../api/Auth.js"
 import BASE_URL from '../api/Constant.js';
@@ -10,19 +9,6 @@ const AuthenticationChecker = ({children}) => {
     return isAuthenticate() ? children : <Navigate to={ROUTE.LOGIN} replace />
 }
 
-<<<<<<< HEAD
-const isAuthenticate = () => {
-    return isAuthenticateValid().then((data) => {
-        return getUserAccessToken() != null && data
-    })
-}
-
-const isAuthenticateValid = () => { 
-    let isMasuk = true
-    axios.get(`${BASE_URL}/v1/kamar`, {
-        headers: {
-            Authorization: `Bearer ${getUserAccessToken()}`
-=======
 const isAuthenticate = async () => { 
     let isMasuk = true
     try {
@@ -39,7 +25,6 @@ const isAuthenticate = async () => {
             if (invalidUserAccessToken || tokenExpiredException) {
                 isMasuk = false
             }
->>>>>>> 6072b6073ba27221a1598c59c9e8bb609417a533
         }
     }
     return isMasuk
