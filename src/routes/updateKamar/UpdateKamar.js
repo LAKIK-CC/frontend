@@ -24,7 +24,6 @@ const schema = yup.object().shape({
     listrik: yup.boolean(),
     springBed: yup.boolean()
 })
-
 const UpdateKamar = () => {
 
     const { id } = useParams();
