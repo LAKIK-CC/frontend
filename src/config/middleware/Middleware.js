@@ -1,45 +1,23 @@
 import axios from 'axios';
-import { getUserAccessToken } from "../api/Auth.js"
-import BASE_URL from '../api/Constant.js';
+import { getUserAccessToken } from "../api/Auth.js";
 import ROUTE from "../api/Route.js";
 import { Navigate } from 'react-router-dom';
-import { useState } from 'react';
+import { createBrowserHistory } from 'history';
 
 const AuthenticationCheckerToLogin = ({children}) => {
-    const [auth, setAuth] = useState(undefined)
-    isAuthenticate(setAuth);
-    if (auth !== undefined) {
-        return auth ? children : <Navigate to={ROUTE.LOGIN} replace />
+    if(getUserAccessToken() === null) {
+        return <Navigate to={ROUTE.LOGIN} replace />
     }
+    return children
 }
 
 const AuthenticationCheckerToDashboard = ({children}) => {
-    const [auth, setAuth] = useState(undefined)
-    isAuthenticate(setAuth);
-    if (auth !== undefined) {
-        return auth ? <Navigate to={ROUTE.DASHBOARD} replace /> : children
+    if(getUserAccessToken() !== null) {
+        return <Navigate to={ROUTE.DASHBOARD} replace />
     }
+    return children
 }
 
-const isAuthenticate = (setAuth) => { 
-    let isMasuk
-    axios.get(`${BASE_URL}/dummy`, {
-        headers: {
-            Authorization: `Bearer ${getUserAccessToken()}`
-        },
-    }).catch((error) => {
-        isMasuk = true
-        if (error.response) {
-            const traceError = error['response']['data']['trace']
-            const invalidUserAccessToken = traceError.includes('com.auth0.jwt.exceptions.JWTDecodeException')
-            const tokenExpiredException = traceError.includes('com.auth0.jwt.exceptions.TokenExpiredException')
-            if (invalidUserAccessToken || tokenExpiredException) {
-                isMasuk = false
-            }
-        }
-        setAuth(isMasuk)
-    })
-    return isMasuk
-}
+const history = createBrowserHistory();
 
-export {AuthenticationCheckerToLogin, AuthenticationCheckerToDashboard, isAuthenticate}
+export {AuthenticationCheckerToLogin, AuthenticationCheckerToDashboard, history}

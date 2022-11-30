@@ -1,20 +1,32 @@
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
-import { deleteUserAccessToken, deleteUserRefreshToken, getUserAccessToken } from "../api/Auth";
+import { getUserAccessToken, deleteUserAccessToken, deleteUserRefreshToken } from "../api/Auth";
 import ROUTE from "../api/Route"
-import { Navigate } from "react-router-dom";
 
-// Axios Intercept 401 / 403 Unauthorized
+axios.interceptors.request.use(
+    async config => {
+      config.headers = { 
+        'Authorization': `Bearer ${getUserAccessToken()}`,
+        'Accept': 'application/json',
+      }
+      return config;
+    },
+    error => {
+      Promise.reject(error)
+  });
+  
+
 axios.interceptors.response.use((response) => {
-    return response;
-}, (error) => {
-    const unauthorized = (401 === error.response.status || 403 === error.response.status) && getUserAccessToken() !== null
+    return response
+  }, async function (error) {
+    const unauthorized = 403 === error.response.status
     const tokenExpiredException = error.response['data']['trace'].includes('com.auth0.jwt.exceptions.TokenExpiredException')
-    if (unauthorized || tokenExpiredException) {
-        deleteUserAccessToken();
-        deleteUserRefreshToken();
-    
-        <Navigate to={ROUTE.LOGIN} replace/>
+    const jtwDecodeException = error.response['data']['trace'].includes('com.auth0.jwt.exceptions.JWTDecodeException')
+    if (unauthorized || tokenExpiredException || jtwDecodeException) {
+        deleteUserAccessToken()
+        deleteUserRefreshToken()
+        window.location.reload(false); //reload with getting from cache
+        
+        // history.replace(ROUTE.LOGIN)
     }
     return Promise.reject(error);
 });

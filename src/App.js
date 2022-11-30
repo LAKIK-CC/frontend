@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { ChakraProvider } from '@chakra-ui/react';
 import { Provider } from 'unistore/react';
 import { store } from './config/store/Store.js';
@@ -11,7 +11,6 @@ import Register from './routes/register/Register.js';
 import CreateKamar from './routes/createKamar/CreateKamar.js';
 import Dashboard from './routes/dashboard/Dashboard.js';
 import './config/middleware/Axios.js';
-import ListKamar from './routes/kamar/ListKamar.js';
 import UpdateKamar from './routes/updateKamar/UpdateKamar.js';
 import NotFound from './routes/not-found/NotFound.js';
 

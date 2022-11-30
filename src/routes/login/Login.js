@@ -38,7 +38,9 @@ const Login = connect('user', actions)(
                 navigate(ROUTE.DASHBOARD)
             })
         } catch(error) {
-            // setResponseMessage(error['response']['data']['response'])
+            if (error['response']['data']['trace'].includes("java.util.NoSuchElementException")) {
+                setResponseMessage("Pastikan akun telah terdaftar")
+            }
             setIsLoading(false)
         }
     };
@@ -62,11 +64,11 @@ const Login = connect('user', actions)(
                     <Box verticalAlign='center'>
                     {isRegistered && (
                     <Text color='green'>
-                        User Created Successfully!
+                        Akun berhasil dibuat!
                     </Text>
                     )}
                         <Text mb={23} fontSize='32px' fontWeight='semibold' color='black'>
-                            Login
+                            Masuk
                         </Text>
                         <Box as='form' onSubmit={handleSubmit(onSubmit)} id="form-login">
                             <TextInput 
@@ -98,15 +100,15 @@ const Login = connect('user', actions)(
                             <Box mb={responseMessage ? '10px' : '20px'} />
 
                             <Button form="form-login" id='signInButton' colorScheme='orangeChill' type='submit' width='8em' borderRadius={10}>
-                                {isLoading ? <Spinner /> : "Sign In"}
+                                {isLoading ? <Spinner /> : "Masuk"}
                             </Button>
                             
                         </Box>
                         
                         <Box mb='20px' />
-                        <Text as='span'>or </Text>
+                        <Text as='span'>atau </Text>
                         <Text as='span' fontWeight='600'>    
-                            <Text as='span' onClick={()=>navigate(ROUTE.REGISTER)} color='#FF884B' style={{cursor:'pointer', textDecoration: 'underline'}}>sign up</Text> to create new account
+                            <Text as='span' onClick={()=>navigate(ROUTE.REGISTER)} color='#FF884B' style={{cursor:'pointer', textDecoration: 'underline'}}>daftar</Text> untuk membuat akun baru
                         </Text>
                     </Box>
                                         

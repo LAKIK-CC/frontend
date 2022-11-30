@@ -85,7 +85,7 @@ function Register() {
                 >
                     <Box verticalAlign='center'>
                         <Text mb={23} fontSize='32px' fontWeight='semibold' color='black'>
-                            Register
+                            Daftar
                         </Text>
                         <Box as='form' onSubmit={handleSubmit(onSubmit)}>
                             <Box>
@@ -161,11 +161,11 @@ function Register() {
 
                                 <Flex minWidth='max-content' alignItems='center' gap='2'>
                                     <Button onClick={() => setSelectedTab(0)} colorScheme='orangeChill' width='8em' borderRadius={10}>
-                                        Back
+                                        Kembali
                                     </Button>
                                     <Spacer />
                                     <Button id='signInButton' colorScheme='orangeChill' type='submit' width='8em' borderRadius={10}>
-                                    {isLoading ? <Spinner /> : "Sign Up"}
+                                    {isLoading ? <Spinner /> : "Daftar"}
                                     </Button>
                                 </Flex>
                             </Box>
@@ -222,7 +222,7 @@ function Register() {
                                 <Box mb='20px' />
 
                                 <Button onClick={() => setSelectedTab(1)} colorScheme='orangeChill' width='8em' borderRadius={10}>
-                                    Next
+                                    Lanjut
                                 </Button>
                             </Box>
                             }
@@ -242,9 +242,9 @@ function Register() {
                         </Box>
                         
                         <Box mb='20px' />
-                        <Text as='span'>Already have an account? </Text>
+                        <Text as='span'>Apakah telah mempunyai akun? </Text>
                         <Text as='u' fontWeight='600'>    
-                            <Text as='span' cursor="pointer" onClick={()=>navigate(ROUTE.LOGIN)} color='#FF884B'>Sign in</Text>
+                            <Text as='span' cursor="pointer" onClick={()=>navigate(ROUTE.LOGIN)} color='#FF884B'>Masuk</Text>
                         </Text>
                     </Box>
                                         
