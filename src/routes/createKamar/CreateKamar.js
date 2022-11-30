@@ -47,7 +47,7 @@ const CreateKamar = () => {
           navigate(ROUTE.DASHBOARD)
       })
     } catch(error) {
-        setResponseMessage(error['response']['data']['response'])
+        setResponseMessage(error['response']['data']['message'])
         setIsLoading(false)
     }
     navigate(ROUTE.DASHBOARD);

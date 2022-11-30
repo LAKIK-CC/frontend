@@ -1,13 +1,14 @@
-import { Box, Button, Flex, Heading, Input, InputGroup, InputLeftElement, Stack, Text, IconButton } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading, Input, InputGroup, InputLeftElement, Stack, Text, IconButton, Tooltip } from '@chakra-ui/react'
 import React, { useCallback, useEffect, useState } from 'react'
 import CardKamar from '../../components/cardKamar/CardKamar'
-import { FaBed, FaCheck, FaSearch, FaShower, FaTemperatureLow } from 'react-icons/fa'
+import { FaBed, FaCheck, FaSearch, FaShower, FaTemperatureLow, FaSignOutAlt } from 'react-icons/fa'
 import { AiFillThunderbolt, AiOutlinePlus } from 'react-icons/ai'
 import { GiCancel } from 'react-icons/gi'
 import axios from 'axios'
 import BASE_URL from '../../config/api/Constant'
-import { getUserAccessToken } from '../../config/api/Auth'
+import { getUserAccessToken, deleteUserAccessToken, deleteUserRefreshToken } from '../../config/api/Auth'
 import { Link } from 'react-router-dom'
+import Alerts from '../../components/alerts/Alerts'
 
 export default function ListKamar() {
   const [kos, setKos] = useState({})
@@ -16,6 +17,7 @@ export default function ListKamar() {
   const [searchBox, setSearchBox] = useState('')
   const [availFilter, setAvail] = useState('')
   const [filters, setFilters] = useState([])
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false)
 
   const searchBoxChanged = (event) => {
     setSearchBox(event.target.value)
@@ -72,6 +74,13 @@ export default function ListKamar() {
     [],
   )
 
+  const logoutDialogOnSubmit = async (id) => {
+    deleteUserAccessToken()
+    deleteUserRefreshToken()
+    setLogoutDialogOpen(false)
+    window.location.reload(false); //reload with getting from cache
+  }
+
   useEffect(() => {
     let tempRoom = [...rooms]
 
@@ -110,6 +119,24 @@ export default function ListKamar() {
           <Text color='gray'>{kos.nomorTeleponKos}</Text>
           <Text m='1rem 0 0'>{kos.deskripsiKos}</Text>
         </Box>
+        <Tooltip hasArrow label='Keluar' fontSize='md'>
+          <Box right='80px' top='50px' position='fixed'>
+            <Alerts
+              isButton
+              popupOpen={logoutDialogOpen}
+              setPopupOpen={setLogoutDialogOpen}
+              displayText={<FaSignOutAlt />} 
+              buttonRightColor='red'
+              header={<Text>Keluar</Text>}
+              body={<Text>
+                Apakah anda yakin ingin keluar?
+              </Text>}
+              buttonRightText='Keluar'
+              buttonLeftText='Batal'
+              onSubmit={() => logoutDialogOnSubmit()}
+            />
+          </Box>
+        </Tooltip>
 
         <InputGroup w='15rem'>
           <InputLeftElement
@@ -119,18 +146,20 @@ export default function ListKamar() {
           <Input type='search' placeholder='Cari kamar...' onChange={searchBoxChanged} />
         </InputGroup>
         <Link to={'/create'}>
-          <Box
-            position='fixed'
-            bottom='30px'
-            right={['16px', '84px']}
-            zIndex={3}>
-            <IconButton
-              size={'lg'}
-              icon={<AiOutlinePlus />}
-              colorScheme='orangeChill'
-              variant='solid'>
-            </IconButton>
-          </Box>
+          <Tooltip hasArrow label='Tambah kamar' fontSize='md'>
+            <Box
+              position='fixed'
+              bottom='30px'
+              right={['16px', '84px']}
+              zIndex={3}>
+              <IconButton
+                size={'lg'}
+                icon={<AiOutlinePlus />}
+                colorScheme='orangeChill'
+                variant='solid'>
+              </IconButton>
+            </Box>
+          </Tooltip>
         </Link>
 
         <Stack alignItems='center'>

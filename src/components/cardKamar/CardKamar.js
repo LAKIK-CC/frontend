@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader } from '@chakra-ui/card'
-import { Badge, Button, Flex, Grid, Heading, Stack, Text } from '@chakra-ui/react'
+import { Badge, Button, Box, Flex, Grid, Heading, Stack, Text, Tooltip } from '@chakra-ui/react'
 
 import Alerts from '../alerts/Alerts'
 
@@ -39,24 +39,30 @@ export default function CardKamar(props) {
             <Heading fontSize={{sm: '1.5rem', md: '2rem'}}>{noKamar}</Heading>
             <Flex gap='1rem'>
               <Link to={'/' + id + '/edit'}>
-                <Button colorScheme='orangeChill'>
-                  <FiEdit2 />
-                </Button>
+                <Tooltip hasArrow label='Edit kamar' fontSize='md'>
+                  <Button colorScheme='orangeChill'>
+                    <FiEdit2 />
+                  </Button>
+                </Tooltip>
               </Link>
-              <Alerts 
-                isButton
-                popupOpen={deleteDialogOpen}
-                setPopupOpen={setDeleteDialogOpen}
-                displayText={<FiTrash2 />} 
-                buttonRightColor='red'
-                header={<Text>Hapus kamar <Text as='b'>{noKamar}</Text>?</Text>}
-                body={<Text>
-                  Kamar yang akan dihapus (<Text as='b'>{noKamar}</Text>) tidak bisa dikembalikan. Apakah anda yakin?
-                </Text>}
-                buttonRightText='Hapus'
-                buttonLeftText='Batal'
-                onSubmit={() => dialogOnSubmit(id)}
-              />
+              <Tooltip hasArrow label='Hapus kamar' fontSize='md'>
+                <Box>
+                  <Alerts 
+                    isButton
+                    popupOpen={deleteDialogOpen}
+                    setPopupOpen={setDeleteDialogOpen}
+                    displayText={<FiTrash2 />} 
+                    buttonRightColor='red'
+                    header={<Text>Hapus kamar <Text as='b'>{noKamar}</Text>?</Text>}
+                    body={<Text>
+                      Kamar yang akan dihapus (<Text as='b'>{noKamar}</Text>) tidak bisa dikembalikan. Apakah anda yakin?
+                    </Text>}
+                    buttonRightText='Hapus'
+                    buttonLeftText='Batal'
+                    onSubmit={() => dialogOnSubmit(id)}
+                  />
+                </Box>
+              </Tooltip>
             </Flex>
           </Flex>
           <Badge colorScheme={tersedia ? 'green' : 'red'} fontSize='1rem'>{tersedia ? 'Tersedia' : 'Tidak tersedia'}</Badge>
@@ -88,7 +94,7 @@ export default function CardKamar(props) {
           <Stack>
               <Text as='b'>Keterangan:</Text>
               <Text>
-                {keterangan}
+                {keterangan === "" ? "-" : keterangan}
               </Text>
           </Stack>
           </Grid>
