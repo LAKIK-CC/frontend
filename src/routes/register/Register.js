@@ -42,24 +42,7 @@ function Register() {
             setIsLoading(false)
         }) 
         .catch((error) => {
-            let error_logs = []
-            if (error.response.data.response) {
-                error_logs = error_logs.concat(error.response.data.response)
-            }
-            if (error.response.data.username) {
-                const username_error = error.response.data.username
-                error_logs = error_logs.concat(username_error)
-            }
-            if (error.response.data.password) {
-                let password_error = error.response.data.password
-                if (password_error[0].startsWith('[')){
-                    password_error = error.response.data.password[0].split("', '")
-                    password_error[0] = password_error[0].slice(2);
-                    password_error[password_error.length - 1] = password_error[password_error.length - 1].slice(0, -2);
-                }
-                error_logs = error_logs.concat(password_error)
-            }
-            setErrl(error_logs)
+            setErrl([error.response.data.message])
             setIsLoading(false)
         });
 

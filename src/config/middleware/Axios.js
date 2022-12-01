@@ -2,18 +2,17 @@ import axios from "axios";
 import { getUserAccessToken, deleteUserAccessToken, deleteUserRefreshToken } from "../api/Auth";
 import ROUTE from "../api/Route"
 
-axios.interceptors.request.use(
-    async config => {
-      config.headers = { 
-        'Authorization': `Bearer ${getUserAccessToken()}`,
-        'Accept': 'application/json',
-      }
-      return config;
-    },
-    error => {
-      Promise.reject(error)
-  });
-  
+// axios.interceptors.request.use(
+//     async config => {
+//       config.headers = { 
+//         'Authorization': `Bearer ${getUserAccessToken()}`,
+//         'Accept': 'application/json',
+//       }
+//       return config;
+//     },
+//     error => {
+//       Promise.reject(error)
+//   });
 
 axios.interceptors.response.use((response) => {
     return response
