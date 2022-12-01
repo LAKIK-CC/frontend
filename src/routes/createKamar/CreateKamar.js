@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Spinner, Text,Box, Flex, Grid, GridItem, Checkbox, CheckboxGroup, Stack  } from '@chakra-ui/react';
+import { Button, Spinner, Text,Box, Flex, Grid, GridItem, Checkbox, CheckboxGroup, Stack, Tooltip, IconButton  } from '@chakra-ui/react';
+import { FaArrowLeft } from 'react-icons/fa'
 import TextInput from '../../components/textInput/TextInput.js';
 import TextArea from '../../components/textInput/TextArea';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -10,7 +11,7 @@ import ROUTE from '../../config/api/Route.js';
 import { getUserAccessToken } from '../../config/api/Auth.js';
 
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const schema = yup.object().shape({
   noKamar: yup.string(),
@@ -60,6 +61,18 @@ const CreateKamar = () => {
       justify='center'
       align='center'
     >   
+      <Link to={ROUTE.DASHBOARD}>
+        <Tooltip hasArrow label='Kembali' fontSize='md'>
+          <Box left='80px' top='50px' position='fixed'>
+            <IconButton
+              size={'lg'}
+              icon={<FaArrowLeft />}
+              colorScheme='orangeChill'
+              variant='solid'>
+            </IconButton>
+          </Box>
+        </Tooltip>
+      </Link>
       <Grid w='40vw' h='full' px='49px' templateColumns='repeat(1, 1fr)' >
         <GridItem colSpan={1}>
           <Box verticalAlign='center' boxShadow='md' padding='5'>
@@ -110,10 +123,11 @@ const CreateKamar = () => {
               <Box mb='20px' />
 
 
-
-              <Button id='signInButton' colorScheme='orangeChill' type='submit' width='12em' borderRadius={10}>
-                  {isLoading ? <Spinner /> : "Create"}
-              </Button>
+              <Tooltip hasArrow label='Create Kamar' fontSize='md'>
+                <Button id='signInButton' colorScheme='orangeChill' type='submit' width='12em' borderRadius={10}>
+                    {isLoading ? <Spinner /> : "Create"}
+                </Button>
+              </Tooltip>
               <Box mb='20px' />
             </Box>
           </Box>

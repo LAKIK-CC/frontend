@@ -5,14 +5,15 @@ import BASE_URL from '../../config/api/Constant.js';
 import { getUserAccessToken } from '../../config/api/Auth.js';
 import ROUTE from "../../config/api/Route.js";
 
-import { Button, Spinner, Text,Box, Flex, Grid, GridItem, Checkbox, Stack  } from '@chakra-ui/react';
+import { FaArrowLeft } from 'react-icons/fa'
+import { Button, Spinner, Text,Box, Flex, Grid, GridItem, Checkbox, Stack, Tooltip, IconButton  } from '@chakra-ui/react';
 import TextInput from '../../components/textInput/TextInput.js';
 import TextArea from '../../components/textInput/TextArea';
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import { useForm, Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const schema = yup.object().shape({
     noKamar: yup.string(),
@@ -88,6 +89,18 @@ const UpdateKamar = () => {
             justify='center'
             align='center'
         >   
+        <Link to={ROUTE.DASHBOARD}>
+            <Tooltip hasArrow label='Kembali' fontSize='md'>
+                <Box left='80px' top='50px' position='fixed'>
+                    <IconButton
+                    size={'lg'}
+                    icon={<FaArrowLeft />}
+                    colorScheme='orangeChill'
+                    variant='solid'>
+                    </IconButton>
+                </Box>
+            </Tooltip>
+        </Link>
             <Grid w='40vw' h='full' px='49px' templateColumns='repeat(1, 1fr)' >
             <GridItem colSpan={1}>
                 <Box verticalAlign='center' boxShadow='md' padding='5'>
@@ -139,10 +152,11 @@ const UpdateKamar = () => {
                         register={register}
                     />
                     <Box mb='20px' />
-
-                    <Button id='signInButton' colorScheme='orangeChill' type='submit' width='12em' borderRadius={10}>
-                        {isLoading ? <Spinner /> : "Update"}
-                    </Button>
+                    <Tooltip hasArrow label='Update Kamar' fontSize='md'>
+                        <Button id='signInButton' colorScheme='orangeChill' type='submit' width='12em' borderRadius={10}>
+                            {isLoading ? <Spinner /> : "Update"}
+                        </Button>
+                    </Tooltip>
                     <Box mb='20px' />
                 </Box>
                 </Box>
