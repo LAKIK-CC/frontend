@@ -152,11 +152,9 @@ const UpdateKamar = () => {
                         register={register}
                     />
                     <Box mb='20px' />
-                    <Tooltip hasArrow label='Update Kamar' fontSize='md'>
-                        <Button id='signInButton' colorScheme='orangeChill' type='submit' width='12em' borderRadius={10}>
-                            {isLoading ? <Spinner /> : "Update"}
-                        </Button>
-                    </Tooltip>
+                    <Button id='signInButton' colorScheme='orangeChill' type='submit' width='12em' borderRadius={10}>
+                        {isLoading ? <Spinner /> : "Update"}
+                    </Button>
                     <Box mb='20px' />
                 </Box>
                 </Box>

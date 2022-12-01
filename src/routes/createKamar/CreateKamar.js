@@ -121,13 +121,9 @@ const CreateKamar = () => {
               />
 
               <Box mb='20px' />
-
-
-              <Tooltip hasArrow label='Create Kamar' fontSize='md'>
                 <Button id='signInButton' colorScheme='orangeChill' type='submit' width='12em' borderRadius={10}>
                     {isLoading ? <Spinner /> : "Create"}
                 </Button>
-              </Tooltip>
               <Box mb='20px' />
             </Box>
           </Box>
