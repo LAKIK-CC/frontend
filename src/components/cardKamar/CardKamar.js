@@ -82,11 +82,11 @@ export default function CardKamar(props) {
                 }
                 {
                   listrik &&
-                  <Grid templateColumns='auto 1fr' gap='1rem' alignItems='center'><AiFillThunderbolt/> Listrik include</Grid>
+                  <Grid templateColumns='auto 1fr' gap='1rem' alignItems='center'><AiFillThunderbolt/> Listrik</Grid>
                 }
                 {
                   springBed &&
-                  <Grid templateColumns='auto 1fr' gap='1rem' alignItems='center'><FaBed/> Springbed</Grid>
+                  <Grid templateColumns='auto 1fr' gap='1rem' alignItems='center'><FaBed/> Spring bed</Grid>
                 }
                 { !wcDalam && !ac && !listrik && !springBed && <Text>-</Text> }
               </Stack>

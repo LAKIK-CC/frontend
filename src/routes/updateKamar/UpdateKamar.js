@@ -112,7 +112,7 @@ const UpdateKamar = () => {
             <GridItem colSpan={1}>
                 <Box verticalAlign='center' boxShadow='md' padding='5'>
                 <Text mb={23} fontSize='32px' fontWeight='semibold' color='black'>
-                    Update Kamar {namaKamar}
+                    Edit Kamar {namaKamar}
                 </Text>
                 <Box as='form' onSubmit={handleSubmit(onSubmit)}>
                     <TextInput 
@@ -137,7 +137,7 @@ const UpdateKamar = () => {
                             )}
                         />
                         <Controller name="wcDalam" control={control} render={({ field: { onChange, value } }) => (
-                            <Checkbox onChange={(e) => onChange(e)} isChecked={value} colorScheme='orangeChill'>WC</Checkbox>
+                            <Checkbox onChange={(e) => onChange(e)} isChecked={value} colorScheme='orangeChill'>Kamar mandi dalam</Checkbox>
                             )}
                         />
                         <Controller name="ac" control={control} render={({ field: { onChange, value } }) => (
@@ -149,7 +149,7 @@ const UpdateKamar = () => {
                             )}
                         />
                         <Controller name="springBed" control={control} render={({ field: { onChange, value } }) => (
-                            <Checkbox onChange={(e) => onChange(e)} isChecked={value} colorScheme='orangeChill'>Spring Bed</Checkbox>
+                            <Checkbox onChange={(e) => onChange(e)} isChecked={value} colorScheme='orangeChill'>Spring bed</Checkbox>
                             )}
                         />
                     </Stack>
@@ -163,7 +163,7 @@ const UpdateKamar = () => {
                     />
                     <Box mb='20px' />
                     <Button id='signInButton' colorScheme='orangeChill' type='submit' width='12em' borderRadius={10}>
-                        {isLoading ? <Spinner /> : "Update"}
+                        {isLoading ? <Spinner /> : "Edit"}
                     </Button>
                     <Box mb='20px' />
                 </Box>

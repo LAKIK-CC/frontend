@@ -181,17 +181,17 @@ export default function ListKamar() {
               AC
             </Button>
             <Button colorScheme='orangeChill' {...(filters.includes('listrik') ? null : {variant:'outline'})} onClick={() => filterBtnClicked('listrik')} leftIcon={<AiFillThunderbolt />}>
-              Listrik include
+              Listrik
             </Button>
             <Button colorScheme='orangeChill' {...(filters.includes('springBed') ? null : {variant:'outline'})} onClick={() => filterBtnClicked('springBed')} leftIcon={<FaBed />}>
-              Springbed
+              Spring bed
             </Button>
           </Flex>
         </Stack>
       </Flex>
 
       <Flex justifyContent='center' m='0 0 1rem'>
-        <Text color='gray'>{roomsToShow.length} room(s) found</Text>
+        <Text color='gray'>{roomsToShow.length} kamar ditemukan</Text>
       </Flex>
 
       <Stack justifyContent='center'>

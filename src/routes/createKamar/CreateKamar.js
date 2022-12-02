@@ -81,7 +81,7 @@ const CreateKamar = () => {
         <GridItem colSpan={1}>
           <Box verticalAlign='center' boxShadow='md' padding='5'>
             <Text mb={23} fontSize='32px' fontWeight='semibold' color='black'>
-                Create Kamar
+                Buat Kamar
             </Text>
             <Box as='form' onSubmit={handleSubmit(onSubmit)}>
               <TextInput 
@@ -105,7 +105,7 @@ const CreateKamar = () => {
                     Tersedia
                   </Checkbox>
                   <Checkbox colorScheme='orangeChill' {...register('wcDalam')}>
-                    WC
+                    Kamar mandi dalam
                   </Checkbox>
                   <Checkbox colorScheme='orangeChill' {...register('ac')}>
                     AC
@@ -114,7 +114,7 @@ const CreateKamar = () => {
                     Listrik
                   </Checkbox>
                   <Checkbox colorScheme='orangeChill' {...register('springBed')}>
-                    Spring Bed
+                    Spring bed
                   </Checkbox>
                 </Stack>
               </CheckboxGroup>
@@ -132,7 +132,7 @@ const CreateKamar = () => {
                 {responseMessage !== '' && <Text fontSize='14px' color='red.500'>{responseMessage}</Text>}
               <Box mb={responseMessage ? '10px' : '20px'} />
                 <Button id='signInButton' colorScheme='orangeChill' type='submit' width='12em' borderRadius={10}>
-                    {isLoading ? <Spinner /> : "Create"}
+                    {isLoading ? <Spinner /> : "Buat"}
                 </Button>
               <Box mb='20px' />
             </Box>
