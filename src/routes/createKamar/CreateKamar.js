@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 
 const schema = yup.object().shape({
-  noKamar: yup.string().required(),
+  noKamar: yup.string().required("Required"),
   keterangan: yup.string(),
   tersedia: yup.boolean(),
   wcDalam: yup.boolean(),
@@ -44,14 +44,18 @@ const CreateKamar = () => {
         }
       })
       .then((response) => {
+        if (response.data.message.includes("nomor kamar telah terdaftar")) {
+          setResponseMessage('Nomor kamar telah tersedia.')
+          setIsLoading(false)
+        } else {
           setResponseMessage('')
           navigate(ROUTE.DASHBOARD)
+        }
       })
     } catch(error) {
         setResponseMessage(error['response']['data']['message'])
         setIsLoading(false)
     }
-    navigate(ROUTE.DASHBOARD);
   }
 
   return (
