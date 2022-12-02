@@ -77,8 +77,8 @@ const Login = connect('user', actions)(
                                 placeholder='myusername' 
                                 errors={errors}
                                 rules={{
-                                    required: 'Required',
-                                    minLength: { value: 1, message: 'Minimum length should be 1' },
+                                    required: 'Wajib diisi',
+                                    minLength: { value: 1, message: 'Minimal 1 karakter' },
                                 }}
                                 register={register}
                             />
@@ -91,8 +91,8 @@ const Login = connect('user', actions)(
                                 title="Password"
                                 placeholder='mypassword123'
                                 rules={{
-                                    required: 'Required',
-                                    minLength: { value: 8, message: 'Minimum length should be 8' },
+                                    required: 'Wajib diisi',
+                                    minLength: { value: 8, message: 'Minimal 8 karakter' },
                                 }}
                             />
                             <Box mb='10px' />

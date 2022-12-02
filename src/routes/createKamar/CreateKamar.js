@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 
 const schema = yup.object().shape({
-  noKamar: yup.string().required("Required"),
+  noKamar: yup.string().required("Wajib diisi"),
   keterangan: yup.string(),
   tersedia: yup.boolean(),
   wcDalam: yup.boolean(),
@@ -92,8 +92,8 @@ const CreateKamar = () => {
                   register={register}
                   rules={
                     {
-                    required: 'Required',
-                    minLength: { value: 1, message: 'Minimum length should be 1' },
+                    required: 'Wajib diisi',
+                    minLength: { value: 1, message: 'Minimal 1 karakter' },
                     }
                   }
               />

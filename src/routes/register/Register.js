@@ -19,7 +19,7 @@ import BASE_URL from "../../config/api/Constant.js";
 import axios from "axios";
 
 function Register() {
-  const [errl, setErrl] = useState([]);
+  const [errl, setErrl] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
 
@@ -48,7 +48,7 @@ function Register() {
     setIsLoading(true);
 
     if (data.password !== data.password2) {
-      setErrl(["Konfirmasi password tidak sama"]);
+      setErrl("Pastikan konfirmasi password sama");
       setIsLoading(false);
       return "";
     }
@@ -56,12 +56,17 @@ function Register() {
     data["role"] = "PEMILIK_KOS";
     axios
       .post(`${BASE_URL}/v1/user/register`, data)
-      .then(() => {
+      .then((response) => {
+        if (response.data.message.includes("could not execute statement; SQL")) {
+          setErrl("Username telah dimiliki, silakan ubah username yang baru");
+          setIsLoading(false);
+          return "";
+        }
         navigate(ROUTE.LOGIN + "?isRegistered=true");
         setIsLoading(false);
       })
       .catch((error) => {
-        setErrl([error.response.data.message]);
+        setErrl(error.response.data.message);
         setIsLoading(false);
       });
 
@@ -137,8 +142,14 @@ function Register() {
                     errors={errors}
                     register={register}
                     rules={{
-                      required: "Required",
-                      minLength: { value: 1, message: "Required" },
+                      required: "Wajib diisi",
+                      minLength: { value: 1, message: "Wajib diisi" },
+                      maxLength: { value: 50, message: "Maksimal 50 karakter" },
+                      pattern: { value: /.[@].*[\.]./, message: "Pastikan format email benar" },
+                      validate: (text) => {
+                        if (text.indexOf(' ') >= 0) {
+                          return "Pastikan tidak ada spasi pada email"
+                      }},
                     }}
                   />
                   <Box mb="20px" />
@@ -150,8 +161,9 @@ function Register() {
                     errors={errors}
                     register={register}
                     rules={{
-                      required: "Required",
-                      minLength: { value: 1, message: "Required" },
+                      required: "Wajib diisi",
+                      minLength: { value: 1, message: "Wajib diisi" },
+                      maxLength: { value: 50, message: "Maksimal 50 karakter" },
                     }}
                   />
                   <Box mb="20px" />
@@ -163,7 +175,7 @@ function Register() {
                     errors={errors}
                     register={register}
                     rules={{
-                      required: "Required",
+                      required: "Wajib diisi",
                       minLength: { value: 8, message: "Minimal 8 karakter" },
                     }}
                   />
@@ -176,7 +188,7 @@ function Register() {
                     errors={errors}
                     register={register}
                     rules={{
-                      required: "Required",
+                      required: "Wajib diisi",
                       minLength: { value: 8, message: "Minimal 8 karakter" },
                     }}
                   />
@@ -214,8 +226,9 @@ function Register() {
                     errors={errors}
                     register={register}
                     rules={{
-                      required: "Required",
-                      minLength: { value: 1, message: "Required" },
+                      required: "Wajib diisi",
+                      minLength: { value: 1, message: "Wajib diisi" },
+                      maxLength: { value: 50, message: "Maksimal 50 karakter" },
                     }}
                   />
                   <Box mb="20px" />
@@ -227,8 +240,10 @@ function Register() {
                     errors={errors}
                     register={register}
                     rules={{
-                      required: "Required",
-                      minLength: { value: 1, message: "Required" },
+                      required: "Wajib diisi",
+                      minLength: { value: 1, message: "Wajib diisi" },
+                      maxLength: { value: 20, message: "Maksimal 20 angka" },
+                      pattern: { value: /^[0-9]+$/, message: "Pastikan hanya diisi angka" }
                     }}
                   />
                   <Box mb="20px" />
@@ -240,8 +255,8 @@ function Register() {
                     errors={errors}
                     register={register}
                     rules={{
-                      required: "Required",
-                      minLength: { value: 1, message: "Required" },
+                      required: "Wajib diisi",
+                      minLength: { value: 1, message: "Wajib diisi" },
                     }}
                   />
                   <Box mb="20px" />
@@ -267,14 +282,9 @@ function Register() {
               )}
 
               <Box mb="20px" />
-              {errl.length !== 0 && (
+              {errl && (
                 <div>
-                  <Text color="red">Error:</Text>
-                  <ul data-testid="errl">
-                    {errl.map((e, i) => (
-                      <li key={i}>{e}</li>
-                    ))}
-                  </ul>
+                  <Text color="red">{errl}</Text>
                 </div>
               )}
               <Box mb="20px" />

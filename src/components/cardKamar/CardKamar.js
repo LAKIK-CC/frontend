@@ -88,7 +88,7 @@ export default function CardKamar(props) {
                   springBed &&
                   <Grid templateColumns='auto 1fr' gap='1rem' alignItems='center'><FaBed/> Springbed</Grid>
                 }
-                {/* <Grid templateColumns='auto 1fr' gap='1rem' alignItems='center'><TbDots/> etc.</Grid> */}
+                { !wcDalam && !ac && !listrik && !springBed && <Text>-</Text> }
               </Stack>
           </Stack>
           <Stack>
