@@ -16,7 +16,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 
 const schema = yup.object().shape({
-    noKamar: yup.string(),
+    noKamar: yup.string().required(),
     keterangan: yup.string(),
     tersedia: yup.boolean(),
     wcDalam: yup.boolean(),
@@ -39,6 +39,7 @@ const UpdateKamar = () => {
                     fields.forEach((field) => {
                         setValue(field, response.data.result[field])
                     })
+                    setNamaKamar(response.data.result["noKamar"])
                     setResponseMessage('')
                     
                 })
@@ -52,6 +53,7 @@ const UpdateKamar = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [responseMessage, setResponseMessage] = useState('')
+    const [namaKamar, setNamaKamar] = useState('')
     const navigate = useNavigate();
 
     const {
@@ -105,7 +107,7 @@ const UpdateKamar = () => {
             <GridItem colSpan={1}>
                 <Box verticalAlign='center' boxShadow='md' padding='5'>
                 <Text mb={23} fontSize='32px' fontWeight='semibold' color='black'>
-                    Update Kamar {id}
+                    Update Kamar {namaKamar}
                 </Text>
                 <Box as='form' onSubmit={handleSubmit(onSubmit)}>
                     <TextInput 
@@ -114,9 +116,12 @@ const UpdateKamar = () => {
                         placeholder='Masukkan nomor kamar...'
                         errors={errors}
                         register={register}
-                        rules={{
-                            required: 'Required'
-                        }}
+                        rules={
+                            {
+                                required: 'Required',
+                                minLength: { value: 1, message: 'Minimum length should be 1' },
+                            }
+                        }
                         
                     />
                     <Box mb='20px' />

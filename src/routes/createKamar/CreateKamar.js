@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 
 const schema = yup.object().shape({
-  noKamar: yup.string(),
+  noKamar: yup.string().required(),
   keterangan: yup.string(),
   tersedia: yup.boolean(),
   wcDalam: yup.boolean(),
@@ -87,7 +87,10 @@ const CreateKamar = () => {
                   errors={errors}
                   register={register}
                   rules={
-                    {required: 'Required'}
+                    {
+                    required: 'Required',
+                    minLength: { value: 1, message: 'Minimum length should be 1' },
+                    }
                   }
               />
               <Box mb='20px' />
@@ -120,7 +123,10 @@ const CreateKamar = () => {
                 register={register}
               />
 
-              <Box mb='20px' />
+
+              <Box mb='10px' />
+                {responseMessage !== '' && <Text fontSize='14px' color='red.500'>{responseMessage}</Text>}
+              <Box mb={responseMessage ? '10px' : '20px'} />
                 <Button id='signInButton' colorScheme='orangeChill' type='submit' width='12em' borderRadius={10}>
                     {isLoading ? <Spinner /> : "Create"}
                 </Button>
