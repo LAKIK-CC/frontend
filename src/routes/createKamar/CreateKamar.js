@@ -45,7 +45,7 @@ const CreateKamar = () => {
       })
       .then((response) => {
         if (response.data.message.includes("nomor kamar telah terdaftar")) {
-          setResponseMessage('Nomor kamar telah tersedia.')
+          setResponseMessage('Nomor kamar telah dibuat sebelumnya')
           setIsLoading(false)
         } else {
           setResponseMessage('')
