@@ -18,8 +18,12 @@ axios.interceptors.response.use((response) => {
     return response
   }, async function (error) {
     const unauthorized = 403 === error.response.status
-    const tokenExpiredException = error.response['data']['trace'].includes('com.auth0.jwt.exceptions.TokenExpiredException')
-    const jtwDecodeException = error.response['data']['trace'].includes('com.auth0.jwt.exceptions.JWTDecodeException')
+    let tokenExpiredException = false;
+    let jtwDecodeException = false;
+    if (error.response.data.trace) {
+        tokenExpiredException = error.response['data']['trace'].includes('com.auth0.jwt.exceptions.TokenExpiredException')
+        jtwDecodeException = error.response['data']['trace'].includes('com.auth0.jwt.exceptions.JWTDecodeException')
+    }
     if (unauthorized || tokenExpiredException || jtwDecodeException) {
         deleteUserAccessToken()
         deleteUserRefreshToken()

@@ -38,8 +38,8 @@ const Login = connect('user', actions)(
                 navigate(ROUTE.DASHBOARD)
             })
         } catch(error) {
-            if (error['response']['data']['trace'].includes("java.util.NoSuchElementException")) {
-                setResponseMessage("Pastikan akun telah terdaftar")
+            if (error.response.status === 401) {
+                setResponseMessage("Username atau Password tidak benar")
             }
             setIsLoading(false)
         }
